@@ -19,6 +19,7 @@ public class ControladorPontosCarregamentoREST {
         PontoCarregamento pontoCarregamento = new PontoCarregamento();
         pontoCarregamento.setLocal(local);
         pontoCarregamento.setMaxCapacity(maxCapacidade);
+        pontoCarregamento.setStatus("DISPONIVEL");
         pontoCarregamentoRepositorio.save(pontoCarregamento);
         return pontoCarregamento;
     }
@@ -27,7 +28,7 @@ public class ControladorPontosCarregamentoREST {
         return pontoCarregamentoRepositorio.findById(id);
     }
     @PutMapping("/atualizar/{id}")
-    public Integer atualizar(@PathVariable Long id, @RequestParam boolean status) {
+    public Integer atualizar(@PathVariable Long id, @RequestParam String status) {
         return pontoCarregamentoRepositorio.updateStatusById(id, status);
     }
     @GetMapping("/listar")

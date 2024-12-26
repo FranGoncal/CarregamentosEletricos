@@ -19,7 +19,7 @@ public class PontoCarregamento {
     private Long id;
     private String local;
     private double maxCapacity;
-    private boolean estaOperacional;
+    private String estado;
 
     public Long getId() {
         return id;
@@ -45,11 +45,11 @@ public class PontoCarregamento {
         this.maxCapacity = maxCapacity;
     }
 
-    public Boolean getStatus() {
-        return estaOperacional;
+    public String getStatus() {
+        return estado;
     }
 
-    public void setStatus(Boolean estaOperacional) {
-        this.estaOperacional = estaOperacional;
+    public void setStatus(String estado) {
+        this.estado = estado;
     }
 }

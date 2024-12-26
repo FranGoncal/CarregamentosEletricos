@@ -22,7 +22,7 @@ public interface PontoCarregamentoRepositorio extends JpaRepository<PontoCarrega
     // Atualizar o estado de operacionalidade de um ponto pelo ID
     @Transactional
     @Modifying
-    @Query("UPDATE PontoCarregamento p SET p.estaOperacional = :status WHERE p.id = :id")
-    Integer updateStatusById(@Param("id") Long id, @Param("status") Boolean status);
+    @Query("UPDATE PontoCarregamento p SET p.estado = :status WHERE p.id = :id")
+    Integer updateStatusById(@Param("id") Long id, @Param("status") String status);
 
 }
