@@ -14,7 +14,7 @@ public class ControladorUtilizadorREST {
     @Autowired
     UtilizadorRepositorio utilizadorRepositorio;
 
-    @PostMapping("/utilizadores/registar")
+    @PostMapping("/utilizadores")
     public Utilizador registrar(@RequestParam String email, @RequestParam String nome, @RequestParam String password, @RequestParam String role) {
         Utilizador utilizador = new Utilizador();
 

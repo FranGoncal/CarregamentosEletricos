@@ -14,7 +14,7 @@ public class ControladorPontosCarregamentoREST {
     @Autowired
     PontoCarregamentoRepositorio pontoCarregamentoRepositorio;
 
-    @PostMapping("/registar")
+    @PostMapping("/pontos-carregamento")
     public PontoCarregamento registrar(@RequestParam String local, @RequestParam double maxCapacidade) {
         PontoCarregamento pontoCarregamento = new PontoCarregamento();
         pontoCarregamento.setLocal(local);
@@ -23,16 +23,18 @@ public class ControladorPontosCarregamentoREST {
         pontoCarregamentoRepositorio.save(pontoCarregamento);
         return pontoCarregamento;
     }
-    @GetMapping("/consultar/{id}")
+    @GetMapping("/pontos-carregamento/{id}")
     public Optional<PontoCarregamento> consultar(@PathVariable Long id) {
         return pontoCarregamentoRepositorio.findById(id);
     }
-    @PutMapping("/atualizar/{id}")
-    public Integer atualizar(@PathVariable Long id, @RequestParam String status) {
-        return pontoCarregamentoRepositorio.updateStatusById(id, status);
-    }
-    @GetMapping("/listar")
+
+    @GetMapping("/pontos-carregamento")
     public List<PontoCarregamento> listar(@RequestParam String local) {
         return pontoCarregamentoRepositorio.findByLocalContaining(local);
     }
+    @PutMapping("/pontos-carregamento/{id}")
+    public Integer atualizar(@PathVariable Long id, @RequestParam String status) {
+        return pontoCarregamentoRepositorio.updateStatusById(id, status);
+    }
+
 }

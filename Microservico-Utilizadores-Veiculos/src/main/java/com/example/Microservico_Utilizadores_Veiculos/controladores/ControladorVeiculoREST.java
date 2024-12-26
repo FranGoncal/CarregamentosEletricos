@@ -17,7 +17,7 @@ public class ControladorVeiculoREST {
     @Autowired
     VeiculoRepositorio veiculoRepositorio;
 
-    @PostMapping("/veiculos/registar")
+    @PostMapping("/veiculos")
     public Veiculo registrar(@RequestParam String marca, @RequestParam String modelo, @RequestParam Double bateria, @RequestParam Integer autonomia) {
         Veiculo veiculo = new Veiculo();
 
