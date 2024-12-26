@@ -3,7 +3,7 @@ package pt.ipcb.ad.Microservico_FrontEnd_Server.modelos;
 
 /*(marca, modelo, KmP, KC)*/
 /*(Calculos: Consumo euros, consumo medio kwh)*/
-public class Fatura {
+public class ExplFatura {
 
     Long id;
     String marca;
@@ -62,7 +62,7 @@ public class Fatura {
         this.consumoMedio = consumoMedio;
     }
 
-    public Fatura(Long id, String marca, String modelo, Double kmP, Double KC, Double fatura, Double consumoMedio) {
+    public ExplFatura(Long id, String marca, String modelo, Double kmP, Double KC, Double fatura, Double consumoMedio) {
         this.id = id;
         this.marca = marca;
         this.modelo = modelo;

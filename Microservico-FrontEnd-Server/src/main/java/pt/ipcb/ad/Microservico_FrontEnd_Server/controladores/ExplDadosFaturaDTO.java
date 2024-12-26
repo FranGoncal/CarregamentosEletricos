@@ -1,18 +1,17 @@
 package pt.ipcb.ad.Microservico_FrontEnd_Server.controladores;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class DadosFaturaDTO {
+public class ExplDadosFaturaDTO {
     String marca;
     String modelo;
     Double KmP;
     Double KC;
 
-    public DadosFaturaDTO(String marca, String modelo, Double kmP, Double KC) {
+    public ExplDadosFaturaDTO(String marca, String modelo, Double kmP, Double KC) {
         this.marca = marca;
         this.modelo = modelo;
         KmP = kmP;

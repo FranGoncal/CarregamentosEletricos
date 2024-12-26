@@ -3,39 +3,57 @@ package pt.ipcb.ad.Microservico_FrontEnd_Server.controladores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.Fatura;
-import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyMicorservicoFaturacao;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyMicroservicoUtilizadorVeiculo;
 
 @Controller
 public class ControladorFrontEndMVC {
 
     @Autowired
-    ProxyMicorservicoFaturacao proxyMicroservicoFaturacao;
+    ProxyMicroservicoUtilizadorVeiculo proxyMicroservicoUtilizadorVeiculo;
 
     @GetMapping("/")
-    String getIndex(Model dadosFaturaDTO){
-        return "index.html";
+    String getIndex(){
+
+        //TODO lógica
+        //Se nao esta autenticado
+        return "login.html";
+        //se esta autenticado
+        //return "pagina_inicial.html";
+    }
+    @GetMapping("/registo")
+    String getRegisto(){
+        return "registar.html";
+    }
+
+    @PostMapping("/login")
+    String login(){
+        //TODO dar login do gajo
+
+        //TODO redirec to gajo again para o ("/")
+        //por enquanto fica assim:
+        return "redirect:/inicio";
+    }
+    @GetMapping("/inicio")
+    String inicio(){
+
+        return "pagina-principal.html";
     }
 
 
-    @PostMapping("/dadosfaturas")
-    ModelAndView recebeDadosFatura(@ModelAttribute DadosFaturaDTO dadosFaturaDTO, ModelAndView modelAndView){
+    @PostMapping("/registar")
+    String registar(@RequestParam String email,
+                    @RequestParam String nome,
+                    @RequestParam String password){
 
-        System.out.println("Boas");
-        System.out.println(dadosFaturaDTO.toString());
+        //TODO Ver se pode criar utilizador
 
-        Fatura fatura = proxyMicroservicoFaturacao.getFatura(
-                dadosFaturaDTO.getMarca(),
-                dadosFaturaDTO.getModelo(),
-                dadosFaturaDTO.getKmP(),
-                dadosFaturaDTO.getKC());
+        //criar utilizador
+        proxyMicroservicoUtilizadorVeiculo.registrar(email,nome,password,"STANDARD");
 
-        System.out.println(fatura.toString());
-
-        modelAndView.addObject("objfatura",fatura);
-        modelAndView.setViewName("fatura.html");
-        return modelAndView;
+        return "login.html";
     }
+
 }
