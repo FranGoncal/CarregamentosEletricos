@@ -14,6 +14,8 @@ public class Fatura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Long sessaoId;
     private Long utilizadorId;
     private Long veiculoId;
 
@@ -26,6 +28,14 @@ public class Fatura {
     private double custoTotal;
     //private String statusPagamento;
 
+
+    public Long getSessaoId() {
+        return sessaoId;
+    }
+
+    public void setSessaoId(Long sessaoId) {
+        this.sessaoId = sessaoId;
+    }
 
     public long getConsumoEnergia() {
         return consumoEnergia;

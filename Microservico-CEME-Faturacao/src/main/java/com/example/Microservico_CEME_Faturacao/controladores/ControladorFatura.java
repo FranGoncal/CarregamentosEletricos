@@ -20,12 +20,13 @@ public class ControladorFatura {
 
 
     @PostMapping("/faturacao")
-    public Fatura registrar(@RequestParam Duration duracao, @RequestParam Long idUtilizador, @RequestParam Long idVeiculo, @RequestParam Long consumoEnergia) {
+    public Fatura registrar(@RequestParam Duration duracao, @RequestParam Long idUtilizador, @RequestParam Long idVeiculo, @RequestParam Long consumoEnergia, @RequestParam Long sessaoID) {
         Fatura fatura = new Fatura();
 
 //        Utilizador utilizador = new Utilizador();
 //        fatura.setUtilizador();
 
+        fatura.setSessaoId(sessaoID);
         fatura.setUtilizadorId(idUtilizador);
         fatura.setConsumoEnergia(consumoEnergia);
         fatura.setVeiculoId(idVeiculo);
