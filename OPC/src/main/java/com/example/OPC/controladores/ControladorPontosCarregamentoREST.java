@@ -28,6 +28,11 @@ public class ControladorPontosCarregamentoREST {
         return pontoCarregamentoRepositorio.findById(id);
     }
 
+    @GetMapping("/pontos-carregamento/estado/{id}")
+    public String consultarEstado(@PathVariable Long id) {
+        return pontoCarregamentoRepositorio.findById(id).get().getStatus();
+    }
+
     @GetMapping("/pontos-carregamento")
     public List<PontoCarregamento> listar(@RequestParam String local) {
         return pontoCarregamentoRepositorio.findByLocalContaining(local);

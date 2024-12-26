@@ -23,12 +23,22 @@ public class SessaoCarregamento {
     private Long id;
     private Long idPosto;
     private Long idVeiculo;
+    private Long idUtilizador;
 
     private Long consumoEnergia; //kWh
     private LocalDateTime inicio;
     private LocalDateTime fim;
     private Duration duracao;
     private Boolean terminada;
+
+
+    public Long getIdUtilizador() {
+        return idUtilizador;
+    }
+
+    public void setIdUtilizador(Long idUtilizador) {
+        this.idUtilizador = idUtilizador;
+    }
 
     public Long getId() {
         return id;
@@ -91,5 +101,11 @@ public class SessaoCarregamento {
             Duration duracao = Duration.between(inicio, fim);
             this.duracao = duracao;
         }
+    }
+
+
+
+    public Boolean getTerminada() {
+        return terminada;
     }
 }

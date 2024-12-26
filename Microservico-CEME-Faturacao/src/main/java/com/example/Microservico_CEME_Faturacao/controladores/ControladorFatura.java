@@ -2,6 +2,7 @@ package com.example.Microservico_CEME_Faturacao.controladores;
 
 
 import com.example.Microservico_CEME_Faturacao.modelos.Fatura;
+import com.example.Microservico_CEME_Faturacao.modelos.SessionDetails;
 import com.example.Microservico_CEME_Faturacao.modelos.Utilizador;
 import com.example.Microservico_CEME_Faturacao.repositorios.FaturaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,28 @@ public class ControladorFatura {
     @Autowired
     FaturaRepositorio faturaRepositorio;
 
+
+    @PostMapping("/CEME-faturacao")
+    public Fatura criar(@RequestBody SessionDetails sessionDetails) {
+        Fatura fatura = new Fatura();
+
+//        Utilizador utilizador = new Utilizador();
+//        fatura.setUtilizador();
+
+
+        fatura.setSessaoId(sessionDetails.getSessionId());
+        fatura.setUtilizadorId(sessionDetails.getUserId());
+        fatura.setConsumoEnergia(sessionDetails.getEnergyConsumed());
+        fatura.setVeiculoId(sessionDetails.getVeiculoId());
+
+        // TODO CALCULAR CUSTO TOTAL!!!
+        double custoTotal = 3;
+
+        fatura.setCustoTotal(custoTotal);
+
+        faturaRepositorio.save(fatura);
+        return fatura;
+    }
 
 
     @PostMapping("/faturacao")
