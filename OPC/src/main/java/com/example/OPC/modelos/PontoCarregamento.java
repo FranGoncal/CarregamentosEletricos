@@ -18,7 +18,7 @@ public class PontoCarregamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String local;
-    private double maxCapacity;
+    private double maxCapacity; //capacidade de carregamento maxima -> kWh
     private String estado;
 
     public Long getId() {

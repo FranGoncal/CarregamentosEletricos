@@ -25,7 +25,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
-        
+
         // Chama o microserviço para autenticar
         UtilizadorDTO user = proxyMicroservicoUtilizadorVeiculo.autenticacao(username, password);
 
