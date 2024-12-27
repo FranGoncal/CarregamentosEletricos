@@ -1,21 +1,13 @@
 package com.example.OPC.modelos;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class PontoCarregamento {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PontoCarregamentoDTO {
+
     private Long id;
     private String local;
     private double maxCapacity; //capacidade de carregamento maxima -> kWh
@@ -43,14 +35,6 @@ public class PontoCarregamento {
 
     public void setMaxCapacity(double maxCapacity) {
         this.maxCapacity = maxCapacity;
-    }
-
-    public String getStatus() {
-        return estado;
-    }
-
-    public void setStatus(String estado) {
-        this.estado = estado;
     }
 
     public String getEstado() {

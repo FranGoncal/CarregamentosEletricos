@@ -6,14 +6,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.PontoCarregamentoDTO;
+import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyMicroservicoOPC;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyMicroservicoUtilizadorVeiculo;
 import org.springframework.security.core.Authentication;
+
+import java.util.List;
 
 @Controller
 public class ControladorFrontEndMVC {
 
     @Autowired
     ProxyMicroservicoUtilizadorVeiculo proxyMicroservicoUtilizadorVeiculo;
+
+    @Autowired
+    ProxyMicroservicoOPC proxyMicroservicoOPC;
 
     @GetMapping("/")
     String getIndex(Authentication authentication){
@@ -67,5 +74,29 @@ public class ControladorFrontEndMVC {
 
         return "login.html";
     }
+
+
+    //------------------------POSTOS DE CARREGAMENT---------------------------------
+
+    @GetMapping("/postos")
+    String getPesquisaPostos(){
+        return "pesquisa-postos.html";
+    }
+
+    @GetMapping("/postos/pesquisar")
+    String getPostos(@RequestParam("local") String local, Model model){
+
+        List<PontoCarregamentoDTO> pontos = proxyMicroservicoOPC.listar(local);
+
+        model.addAttribute("postos", pontos);
+
+        return "lista-pontos.html";
+    }
+
+
+    //------------------------------------------------------------------------------
+
+
+
 
 }

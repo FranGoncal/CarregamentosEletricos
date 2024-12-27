@@ -32,6 +32,5 @@ public class MicroservicoCemeFaturacaoApplication implements ApplicationRunner {
 
 		cemeRepositorio.save(ceme1);
 		cemeRepositorio.save(ceme2);
-
 	}
 }

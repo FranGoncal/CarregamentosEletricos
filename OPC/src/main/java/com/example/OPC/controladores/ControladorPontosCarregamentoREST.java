@@ -1,10 +1,12 @@
 package com.example.OPC.controladores;
 
 import com.example.OPC.modelos.PontoCarregamento;
+import com.example.OPC.modelos.PontoCarregamentoDTO;
 import com.example.OPC.repositorios.PontoCarregamentoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,9 +36,24 @@ public class ControladorPontosCarregamentoREST {
     }
 
     @GetMapping("/pontos-carregamento")
-    public List<PontoCarregamento> listar(@RequestParam String local) {
-        return pontoCarregamentoRepositorio.findByLocalContaining(local);
+    public List<PontoCarregamentoDTO> listar(@RequestParam String local) {
+
+        List<PontoCarregamento> pontosCarregamentos = pontoCarregamentoRepositorio.findByLocalContainingIgnoreCase(local);
+        List<PontoCarregamentoDTO> pontosCarregamentosDTO = new ArrayList<>();
+
+        for(PontoCarregamento ponto : pontosCarregamentos) {
+            PontoCarregamentoDTO pontoCarregamentoDTO = new PontoCarregamentoDTO();
+            pontoCarregamentoDTO.setEstado(ponto.getEstado());
+            pontoCarregamentoDTO.setMaxCapacity(ponto.getMaxCapacity());
+            pontoCarregamentoDTO.setLocal(ponto.getLocal());
+            pontoCarregamentoDTO.setId(ponto.getId());
+            pontosCarregamentosDTO.add(pontoCarregamentoDTO);
+        }
+
+        return pontosCarregamentosDTO;
     }
+
+
     @PutMapping("/pontos-carregamento/{id}")
     public Integer atualizar(@PathVariable Long id, @RequestParam String status) {
         return pontoCarregamentoRepositorio.updateStatusById(id, status);

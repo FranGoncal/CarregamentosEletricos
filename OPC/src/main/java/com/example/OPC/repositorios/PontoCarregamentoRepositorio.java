@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface PontoCarregamentoRepositorio extends JpaRepository<PontoCarregamento, Long> {
 
     // Consultar pontos de carregamento pelo local
-    List<PontoCarregamento> findByLocalContaining(@Param("local") String local);
+    List<PontoCarregamento> findByLocalContainingIgnoreCase(@Param("local") String local);
 
     // Consultar ponto de carregamento pelo ID
     @Query("SELECT p FROM PontoCarregamento p WHERE p.id = :id")
