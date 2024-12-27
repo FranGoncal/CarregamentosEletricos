@@ -36,14 +36,14 @@
 </body>
 <div sec:authorize="isAuthenticated()">
     <div>
-        Logged User: <b sec:authentication="username"></b>
+        Logged User: <b sec:authentication="name"></b>
         <br>
         Role(s): <b sec:authentication="principal.authorities"></b>
         <br>
     </div>
 </div>
 
-<div sec:authorize="hasRole('Standard')">
+<div sec:authorize="hasRole('ROLE_STANDARD')">
     Um utilizador com a função ROLE_STANDARD tem apenas acesso a algumas opções.
 </div>
 

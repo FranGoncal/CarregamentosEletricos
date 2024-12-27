@@ -26,10 +26,28 @@ public class MicroservicoUtilizadoresVeiculosApplication implements ApplicationR
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		Utilizador u1 = new Utilizador();
-		u1.setRole("Admin");
+		Utilizador u2 = new Utilizador();
+		Utilizador u3 = new Utilizador();
+		Utilizador u4 = new Utilizador();
+		u1.setRole("ROLE_ADMIN");
 		u1.setName("aaa");
 		u1.setEmail("a@a.a");
 		u1.setPassword("a");
+
+		u2.setRole("ROLE_STANDARD");
+		u2.setName("b");
+		u2.setEmail("b@b.b");
+		u2.setPassword("b");
+
+		u3.setRole("ROLE_CEME");
+		u3.setName("c");
+		u3.setEmail("c@c.c");
+		u3.setPassword("c");
+
+		u4.setRole("ROLE_OPC");
+		u4.setName("o");
+		u4.setEmail("o@o.o");
+		u4.setPassword("o");
 
 		Veiculo v1 = new Veiculo();
 		v1.setAutonomia(111);
@@ -38,9 +56,19 @@ public class MicroservicoUtilizadoresVeiculosApplication implements ApplicationR
 		v1.setModelo("i4");
 		v1.setUtilizador(u1);
 
+		Veiculo v2 = new Veiculo();
+		v2.setAutonomia(111);
+		v2.setBateria(111);
+		v2.setMarca("tesla");
+		v2.setModelo("model x");
+		v2.setUtilizador(u1);
+
 		u1.setVehicles(v1);
 
 		utilizadorRepositorio.save(u1);
+		utilizadorRepositorio.save(u2);
+		utilizadorRepositorio.save(u3);
+		utilizadorRepositorio.save(u4);
 		veiculoRepositorio.save(v1);
 
 
