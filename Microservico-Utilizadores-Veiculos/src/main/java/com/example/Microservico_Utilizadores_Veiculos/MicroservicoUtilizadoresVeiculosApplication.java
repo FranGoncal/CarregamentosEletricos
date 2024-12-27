@@ -57,19 +57,31 @@ public class MicroservicoUtilizadoresVeiculosApplication implements ApplicationR
 		v1.setUtilizador(u1);
 
 		Veiculo v2 = new Veiculo();
-		v2.setAutonomia(111);
-		v2.setBateria(111);
+		v2.setAutonomia(100);
+		v2.setBateria(350);
 		v2.setMarca("tesla");
 		v2.setModelo("model x");
-		v2.setUtilizador(u1);
+		v2.setUtilizador(u2);
+
+		Veiculo v3 = new Veiculo();
+		v3.setAutonomia(82);
+		v3.setBateria(350);
+		v3.setMarca("tesla");
+		v3.setModelo("model y");
+		v3.setUtilizador(u1);
 
 		u1.setVehicles(v1);
+		u1.setVehicles(v3);
+		u2.setVehicles(v2);
 
 		utilizadorRepositorio.save(u1);
 		utilizadorRepositorio.save(u2);
 		utilizadorRepositorio.save(u3);
 		utilizadorRepositorio.save(u4);
 		veiculoRepositorio.save(v1);
+		veiculoRepositorio.save(v2);
+		veiculoRepositorio.save(v3);
+
 
 
 	}

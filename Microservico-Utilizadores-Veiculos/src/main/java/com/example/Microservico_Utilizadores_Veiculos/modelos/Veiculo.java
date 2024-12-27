@@ -17,8 +17,8 @@ public class Veiculo {
     private Long id;
     private String marca;
     private String modelo;
-    private double bateria;   //consumo
-    private double autonomia; //quanto ele leva
+    private double bateria;   //quanto a bateria aguenta        kW
+    private double autonomia; //capacidade total                kWh
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
