@@ -1,10 +1,13 @@
 package com.example.Microservico_Utilizadores_Veiculos.controladores;
 
 import com.example.Microservico_Utilizadores_Veiculos.modelos.Utilizador;
+import com.example.Microservico_Utilizadores_Veiculos.modelos.UtilizadorDTO;
 import com.example.Microservico_Utilizadores_Veiculos.repositorios.UtilizadorRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +27,8 @@ public class ControladorUtilizadorREST {
         utilizador.setPassword(password);
         utilizador.setRole(role);
 
+        System.out.println(role);
+
         utilizadorRepositorio.save(utilizador);
         return ResponseEntity.ok("Utilizador criado com sucesso");
     }
@@ -35,4 +40,28 @@ public class ControladorUtilizadorREST {
     public List<Utilizador> listar() {
         return utilizadorRepositorio.findAll();
     }
+
+    @GetMapping("/utilizadores/autenticacao")
+    public UtilizadorDTO autenticacao(@RequestParam String email, @RequestParam String password) {
+
+        // ver se existe realmente este user
+        Utilizador user = utilizadorRepositorio.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Credenciais incorretas!"));
+
+        //confirmar password
+        if (!user.getPassword().equals(password)) {
+            throw new BadCredentialsException("Credenciais incorretas!");
+        }
+        UtilizadorDTO userDTO = new UtilizadorDTO();
+
+        //preparar informacoes do utilizador
+        userDTO.setEmail(user.getEmail());
+        userDTO.setName(user.getName());
+        userDTO.setRole(user.getRole());
+        userDTO.setId(user.getId());
+        userDTO.setVehicles(user.getVehicles());
+
+        return userDTO;
+    }
+
 }

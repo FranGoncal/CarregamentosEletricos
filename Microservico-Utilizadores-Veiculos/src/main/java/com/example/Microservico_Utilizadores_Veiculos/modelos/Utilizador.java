@@ -3,6 +3,7 @@ package com.example.Microservico_Utilizadores_Veiculos.modelos;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,10 +22,11 @@ public class Utilizador {
     private Long id;
     private String name;
     @Column(unique = true)
+    @Email
     private String email;
     private String password;
-    @Transient
-    private String role;
+    //@Transient
+    private String role; //Admin, Standard, Ceme, PCO
     @OneToMany(mappedBy = "utilizador", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     //@JsonBackReference

@@ -27,9 +27,9 @@ public class MicroservicoUtilizadoresVeiculosApplication implements ApplicationR
 	public void run(ApplicationArguments args) throws Exception {
 		Utilizador u1 = new Utilizador();
 		u1.setRole("Admin");
-		u1.setName("Alberto");
+		u1.setName("aaa");
 		u1.setEmail("al@gmail.com");
-		u1.setPassword("Alberto");
+		u1.setPassword("aaa");
 
 		Veiculo v1 = new Veiculo();
 		v1.setAutonomia(111);

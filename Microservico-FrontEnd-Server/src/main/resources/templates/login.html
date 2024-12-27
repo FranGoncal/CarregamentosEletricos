@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,16 +17,16 @@
 
 <div class="container mt-5">
     <h1 class="mb-4">Login</h1>
-    <form action="/MICROSERVICO-FRONTEND-SERVER/login" method="POST">
+    <form action="/MICROSERVICO-FRONTEND-SERVER/" method="POST">
         <!-- Nome de Usuário -->
         <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input name="email" type="text" class="form-control" id="email" placeholder="Insira seu email">
+            <label for="username" class="form-label">Email</label>
+            <input name="username" type="text" class="form-control" id="username" placeholder="Insira seu email">
         </div>
         <!-- Senha -->
         <div class="mb-3">
             <label for="password" class="form-label">Palavra-passe</label>
-            <input name="password" type="password" class="form-control" id="password" placeholder="Insira sua senha">
+            <input name="password" type="password" class="form-control" id="password" placeholder="Insira a sua senha">
         </div>
         <!-- Botão de Login -->
         <button type="submit" class="btn btn-primary">Entrar</button>
