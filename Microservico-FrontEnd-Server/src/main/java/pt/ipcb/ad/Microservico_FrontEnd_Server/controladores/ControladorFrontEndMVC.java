@@ -4,14 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.CEME;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.PontoCarregamentoDTO;
+import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.Veiculo;
+import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyCeme;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyMicroservicoOPC;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyMicroservicoUtilizadorVeiculo;
 import org.springframework.security.core.Authentication;
+import pt.ipcb.ad.Microservico_FrontEnd_Server.services.UserService;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Controller
 public class ControladorFrontEndMVC {
@@ -21,6 +28,14 @@ public class ControladorFrontEndMVC {
 
     @Autowired
     ProxyMicroservicoOPC proxyMicroservicoOPC;
+
+    @Autowired
+    ProxyCeme proxyCeme;
+
+    @Autowired
+    UserService userService;
+
+
 
     @GetMapping("/")
     String getIndex(Authentication authentication){
@@ -83,12 +98,30 @@ public class ControladorFrontEndMVC {
         return "pesquisa-postos.html";
     }
 
+    @GetMapping("/postos/{id}")
+    String getPosto(@PathVariable Long id, Model model){
+
+        List<CEME> listaCeme = proxyCeme.listar();
+        model.addAttribute("listaCeme",listaCeme);
+
+        PontoCarregamentoDTO ponto = proxyMicroservicoOPC.consultar(id);
+        model.addAttribute("ponto",ponto);
+
+        //pesquisar carro tendo o email logado
+        Set<Veiculo> veiculos = proxyMicroservicoUtilizadorVeiculo.consultarVeiculos(userService.getAuthenticatedUsername());
+        model.addAttribute("veiculos",veiculos);
+
+        return "ponto-carregamento.html";
+    }
+
     @GetMapping("/postos/pesquisar")
     String getPostos(@RequestParam("local") String local, Model model){
 
         List<PontoCarregamentoDTO> pontos = proxyMicroservicoOPC.listar(local);
-
         model.addAttribute("postos", pontos);
+
+
+
 
         return "lista-pontos.html";
     }

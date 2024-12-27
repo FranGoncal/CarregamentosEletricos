@@ -26,8 +26,16 @@ public class ControladorPontosCarregamentoREST {
         return pontoCarregamento;
     }
     @GetMapping("/pontos-carregamento/{id}")
-    public Optional<PontoCarregamento> consultar(@PathVariable Long id) {
-        return pontoCarregamentoRepositorio.findById(id);
+    public PontoCarregamentoDTO consultar(@PathVariable Long id) {
+        Optional<PontoCarregamento> ponto = pontoCarregamentoRepositorio.findById(id);
+
+        PontoCarregamentoDTO pontoCarregamentoDTO = new PontoCarregamentoDTO();
+        pontoCarregamentoDTO.setEstado(ponto.get().getEstado());
+        pontoCarregamentoDTO.setMaxCapacity(ponto.get().getMaxCapacity());
+        pontoCarregamentoDTO.setLocal(ponto.get().getLocal());
+        pontoCarregamentoDTO.setId(ponto.get().getId());
+
+        return pontoCarregamentoDTO;
     }
 
     @GetMapping("/pontos-carregamento/estado/{id}")

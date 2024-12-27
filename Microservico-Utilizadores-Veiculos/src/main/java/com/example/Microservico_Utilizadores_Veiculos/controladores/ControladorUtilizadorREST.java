@@ -2,6 +2,7 @@ package com.example.Microservico_Utilizadores_Veiculos.controladores;
 
 import com.example.Microservico_Utilizadores_Veiculos.modelos.Utilizador;
 import com.example.Microservico_Utilizadores_Veiculos.modelos.UtilizadorDTO;
+import com.example.Microservico_Utilizadores_Veiculos.modelos.Veiculo;
 import com.example.Microservico_Utilizadores_Veiculos.repositorios.UtilizadorRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 public class ControladorUtilizadorREST {
@@ -64,4 +66,9 @@ public class ControladorUtilizadorREST {
         return userDTO;
     }
 
+    @GetMapping("/utilizadores/veiculos")
+    public Set<Veiculo> consultarVeiculos(@RequestParam String email) {
+        Optional<Utilizador> user = utilizadorRepositorio.findByEmail(email);
+        return user.get().getVehicles();
+    }
 }
