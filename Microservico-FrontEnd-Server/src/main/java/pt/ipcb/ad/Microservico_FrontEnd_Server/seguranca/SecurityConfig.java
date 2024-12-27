@@ -24,8 +24,12 @@ import java.security.Security;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 public class SecurityConfig  {
+
+
+
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
@@ -38,7 +42,7 @@ public class SecurityConfig  {
                 .formLogin(form->form
                         .loginPage("/")
                         .failureUrl("/")
-                        .defaultSuccessUrl("/inicio", true)
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .exceptionHandling((accessonegado)->accessonegado

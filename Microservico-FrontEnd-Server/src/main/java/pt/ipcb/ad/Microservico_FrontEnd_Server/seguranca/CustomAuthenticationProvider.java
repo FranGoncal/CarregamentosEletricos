@@ -20,6 +20,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     ProxyMicroservicoUtilizadorVeiculo proxyMicroservicoUtilizadorVeiculo;
 
 
+
     @Override
     public Authentication authenticate(Authentication authentication) {
         String username = authentication.getName();

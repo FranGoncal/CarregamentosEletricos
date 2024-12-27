@@ -28,8 +28,8 @@ public class MicroservicoUtilizadoresVeiculosApplication implements ApplicationR
 		Utilizador u1 = new Utilizador();
 		u1.setRole("Admin");
 		u1.setName("aaa");
-		u1.setEmail("al@gmail.com");
-		u1.setPassword("aaa");
+		u1.setEmail("a@a.a");
+		u1.setPassword("a");
 
 		Veiculo v1 = new Veiculo();
 		v1.setAutonomia(111);
