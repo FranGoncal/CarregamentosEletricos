@@ -15,16 +15,22 @@ public class CEME {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String ownerEmail;
     private Double precoPorKWh;
 
+
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
+    }
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public String getName() {
         return name;
     }

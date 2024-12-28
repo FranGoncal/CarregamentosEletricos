@@ -9,7 +9,14 @@ public class CEME {
     private Long id;
     private String name;
     private Double precoPorKWh;
+    private String ownerEmail;
 
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
+    }
     public Long getId() {
         return id;
     }

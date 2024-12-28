@@ -139,6 +139,10 @@ public class ControladorFrontEndMVC {
         //Obter dados da sessao
         Optional<SessaoCarregamento> sessaoCarregamento = proxySimulacaoSessaoCarregamento.consultar(idSessao);
         model.addAttribute("sessaoCarregamento", sessaoCarregamento.get());
+
+        String nomeCeme = proxyCeme.getNome(sessaoCarregamento.get().getIdCeme());
+        model.addAttribute("nomeCeme", nomeCeme);
+
         long totalSegundos = sessaoCarregamento.get().getDuracao().getSeconds();
         long horas = totalSegundos/3600;
         totalSegundos = totalSegundos%3600;
@@ -181,6 +185,9 @@ public class ControladorFrontEndMVC {
         Optional<Fatura> fatura = proxyCeme.consultar(idFatura);
         model.addAttribute("fatura", fatura.get());
 
+        String nomeCeme = proxyCeme.getNome(fatura.get().getIdCeme());
+        model.addAttribute("nomeCeme",nomeCeme);
+
         return "fatura.html";
     }
 
@@ -189,6 +196,18 @@ public class ControladorFrontEndMVC {
     //------------------------------------------------------------------------------
 
     //----------------------------------OPC-----------------------------------------
+
+
+    @GetMapping("/gestao/OPC/eliminar/{id}")
+    String eliminaPonto(Model model,@PathVariable Long id){
+
+        proxyMicroservicoOPC.eliminarPonto(id);
+
+        List<PontoCarregamento> listaPontos = proxyMicroservicoOPC.getPontosProrios(userService.getAuthenticatedUsername());
+        model.addAttribute("listaPontos", listaPontos);
+
+        return "lista-pontos-proprios.html";
+    }
 
     @GetMapping("/gestao/OPC")
     String getPostosProprios(Model model){
@@ -236,4 +255,61 @@ public class ControladorFrontEndMVC {
 
     //----------------------------------CEME-----------------------------------------
 
+
+    @GetMapping("/gestao/CEME/eliminar/{id}")
+    String eliminaCeme(Model model,@PathVariable Long id){
+
+        proxyCeme.eliminarCeme(id);
+
+        List<CEME> listaCeme = proxyCeme.getFornecedoresProrios(userService.getAuthenticatedUsername());
+        model.addAttribute("listaCeme", listaCeme);
+        return "lista-ceme.html";
+    }
+
+    @GetMapping("/gestao/CEME/adicionar")
+    String getCriarCeme(){
+        return "criar-CEME.html";
+    }
+    @PostMapping("/gestao/CEME/criar")
+    String criarCeme(@RequestParam String fornecedor, @RequestParam double precoPorKWH){
+
+        String email = userService.getAuthenticatedUsername();
+        proxyCeme.criarCeme(email,fornecedor,precoPorKWH);
+
+        return "redirect:/gestao/CEME";
+    }
+    @GetMapping("/gestao/CEME")
+    String getServicosCEME(Model model){
+
+        List<CEME> listaCeme = proxyCeme.getFornecedoresProrios(userService.getAuthenticatedUsername());
+        model.addAttribute("listaCeme", listaCeme);
+        return "lista-ceme.html";
+    }
+    @GetMapping("/gestao/CEME/editar/{id}")
+    String getServicosCEME(Model model, @PathVariable Long id){
+
+        CEME ceme = proxyCeme.getCeme(id);
+        model.addAttribute("ceme", ceme);
+        return "editar-ceme.html";
+    }
+    @PostMapping("/gestao/CEME/editar")
+    String editarCeme(Model model, @RequestParam Long id, @RequestParam String name, @RequestParam double precoPorKWh){
+
+        //editar ponto
+        proxyCeme.editaCeme(id, name ,precoPorKWh);
+
+        //obter o ponto
+        CEME ceme1 = proxyCeme.getCeme(id);
+        model.addAttribute("ceme",ceme1);
+
+        return "editar-ceme.html";
+    }
+
+
+    //------------------------------------------------------------------------------
+
+    //----------------------------------ADMIN---------------------------------------
+
+
+    //------------------------------------------------------------------------------
 }

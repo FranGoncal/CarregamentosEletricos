@@ -1,6 +1,7 @@
 package pt.ipcb.ad.Microservico_FrontEnd_Server.proxies;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.PontoCarregamento;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.PontoCarregamentoDTO;
@@ -31,4 +32,8 @@ public interface ProxyMicroservicoOPC {
 
     @PostMapping("/opc/ponto/criar")
     public PontoCarregamento criarPonto(@RequestParam String email, @RequestParam String local, @RequestParam String estado, @RequestParam double capacidade);
+
+
+    @DeleteMapping("/opc/ponto/eliminar")
+    public ResponseEntity<String> eliminarPonto(@RequestParam Long id);
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes da Fatura</title>
+    <title>Gestão de CEME</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -28,20 +28,27 @@
 </nav>
 
 <div class="container mt-5">
-    <h1 class="mb-4">Detalhes da Fatura</h1>
+    <h1 class="mb-4">Gestão de CEME</h1>
 
-    <div class="mt-4">
-        <p><strong>ID da Fatura:</strong> <span th:text="${fatura.id}"></span></p>
-        <p><strong>Email do Utilizador:</strong> <span th:text="${fatura.emailUtilizador}"></span></p>
-        <p><strong>Fornecedor de Energia:</strong> <span th:text="${nomeCeme}"></span></p>
-        <p><strong>Consumo de Energia:</strong> <span th:text="${fatura.consumoEnergia}"></span> kWh</p>
-        <p><strong>Custo Total:</strong> <span th:text="${fatura.custoTotal}"></span> €</p>
-        <p><strong>Data Emitida:</strong> <span th:text="${#temporals.format(fatura.dataEmitida, 'dd/MM/yyyy HH:mm')}"></span></p> <!-- Exibição da data emitida -->
+    <!-- Botão para Adicionar um Novo CEME -->
+    <div class="mb-4">
+        <a href="/MICROSERVICO-FRONTEND-SERVER/gestao/CEME/adicionar" class="btn btn-success">Adicionar Novo CEME</a>
     </div>
 
-    <!-- Exibição de mais detalhes (se necessário) -->
-    <div class="mt-5">
-        <a th:href="@{/faturas}" class="btn btn-secondary">Voltar à lista de faturas</a>
+    <div class="list-group">
+        <!-- Exibição dos CEMEs -->
+        <div th:each="ceme : ${listaCeme}" class="list-group-item">
+            <h5>CEME ID: <span th:text="${ceme.id}"></span></h5>
+            <p><strong>Nome do Fornecedor:</strong> <span th:text="${ceme.name}"></span></p>
+
+            <!-- Link clicável para detalhes do CEME -->
+            <a th:href="@{/gestao/CEME/editar/{id}(id=${ceme.id})}" class="btn btn-primary">Ver Detalhes</a>
+        </div>
+    </div>
+
+    <!-- Caso a lista de CEMEs esteja vazia -->
+    <div th:if="${#lists.isEmpty(listaCeme)}" class="mt-4">
+        <p>Nenhum CEME encontrado.</p>
     </div>
 </div>
 

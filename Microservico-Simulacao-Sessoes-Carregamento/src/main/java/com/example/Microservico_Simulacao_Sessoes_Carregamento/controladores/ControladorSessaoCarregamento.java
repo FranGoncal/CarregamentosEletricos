@@ -62,6 +62,7 @@ public class ControladorSessaoCarregamento {
         sessaoCarregamento.setTerminada(false);
         sessaoCarregamento.setPrecoCeme(precoCeme);
         sessaoCarregamento.setIdVeiculo(idVeiculo);
+        sessaoCarregamento.setIdCeme(cemeId);
         sessaoCarregamento.setEmailUtilizador(emailUtilizador);
         sessaoCarregamento.setInicio(LocalDateTime.now());
 
@@ -123,6 +124,7 @@ public class ControladorSessaoCarregamento {
         //TODO calcular energia consumida sessionDetails.setEnergyConsumed(sessao.get().getCarregamento());
         sessionDetails.setEnergyConsumed(888l);
 
+        sessionDetails.setIdCeme(sessao.get().getIdCeme());
         sessionDetails.setSessionId(sessao.get().getId());
         sessionDetails.setVeiculoId(sessao.get().getIdVeiculo());
         sessionDetails.setUserEmail(sessao.get().getEmailUtilizador());

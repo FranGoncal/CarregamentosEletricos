@@ -16,7 +16,9 @@ public class SessaoCarregamento {
     private Long idPosto;
     private Long idVeiculo;
     private String emailUtilizador;
+
     private double precoCeme;
+    private Long idCeme;
 
 
     private double carregamento; //kW
@@ -24,6 +26,10 @@ public class SessaoCarregamento {
     private LocalDateTime fim;
     private Duration duracao;
     private Boolean terminada;
+
+    public Long getIdCeme() {return idCeme; }
+
+    public void setIdCeme(Long idCeme) { this.idCeme = idCeme; }
 
     public double getPrecoCeme() {
         return precoCeme;

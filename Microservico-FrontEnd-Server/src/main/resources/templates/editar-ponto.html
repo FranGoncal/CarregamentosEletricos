@@ -59,6 +59,9 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+
+        <!-- Link para eliminar o Ponto -->
+        <a th:href="@{/gestao/OPC/eliminar/{id}(id=${ponto.id})}" class="btn btn-danger ms-3" onclick="return confirm('Tem a certeza que deseja eliminar este ponto de carregamento?')">Eliminar</a>
     </form>
 </div>
 

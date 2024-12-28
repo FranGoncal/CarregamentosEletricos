@@ -23,15 +23,18 @@ public class MicroservicoCemeFaturacaoApplication implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		CEME ceme1 = new CEME();
-		ceme1.setName("CEME 1");
+		ceme1.setName("EDP");
+		ceme1.setOwnerEmail("a@a.a");
 		ceme1.setPrecoPorKWh(0.20);
 
 		CEME ceme2 = new CEME();
-		ceme2.setName("CEME 2");
+		ceme2.setName("Fornecedor X");
+		ceme2.setOwnerEmail("a@a.a");
 		ceme2.setPrecoPorKWh(0.22);
 
 		CEME ceme3 = new CEME();
-		ceme3.setName("CEME 3");
+		ceme3.setName("Elon Musk");
+		ceme3.setOwnerEmail("c@c.c");
 		ceme3.setPrecoPorKWh(0.30);
 
 		cemeRepositorio.save(ceme1);

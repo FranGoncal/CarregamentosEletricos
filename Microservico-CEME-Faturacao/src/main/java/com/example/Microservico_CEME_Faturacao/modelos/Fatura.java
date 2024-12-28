@@ -20,6 +20,7 @@ public class Fatura {
     private Long sessaoId;
     private String emailUtilizador;
     private Long veiculoId;
+    private Long idCeme;
     private LocalDateTime dataEmitida;
 
     /*
@@ -31,6 +32,14 @@ public class Fatura {
     private double custoTotal;
     //private String statusPagamento;
 
+
+    public Long getIdCeme() {
+        return idCeme;
+    }
+
+    public void setIdCeme(Long idCeme) {
+        this.idCeme = idCeme;
+    }
 
     public LocalDateTime getDataEmitida() {
         return dataEmitida;

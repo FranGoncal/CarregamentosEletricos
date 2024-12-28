@@ -14,10 +14,19 @@ public class SessionDetails {
     private Long energyConsumed;
     private Duration duration;
     private String userEmail;
+    private Long idCeme;
     private Long veiculoId;
     private Long postoId;
     // Getters, Setters, Constructors
 
+
+    public Long getIdCeme() {
+        return idCeme;
+    }
+
+    public void setIdCeme(Long idCeme) {
+        this.idCeme = idCeme;
+    }
 
     public Long getPostoId() {
         return postoId;

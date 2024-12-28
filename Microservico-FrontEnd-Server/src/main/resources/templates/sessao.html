@@ -38,7 +38,7 @@
     </div>-->
 
     <div class="mt-4">
-        <p><strong>Preço do CEME:</strong> <span th:text="${sessaoCarregamento.precoCeme}"></span> €/kWh</p>
+        <p><strong>Preço do CEME <span th:text="${nomeCeme}"></span>:</strong> <span th:text="${sessaoCarregamento.precoCeme}"></span> €/kWh</p>
         <p><strong>Carregamento:</strong> <span th:text="${sessaoCarregamento.carregamento}"></span> kW</p>
         <p><strong>Início:</strong> <span th:text="${#temporals.format(sessaoCarregamento.inicio, 'dd/MM/yyyy HH:mm')}"></span></p>
 

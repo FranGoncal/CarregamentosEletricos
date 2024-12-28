@@ -17,8 +17,17 @@ public class SessionDetails {
     private String userEmail;
     private Long veiculoId;
     private Long postoId;
+    private Long idCeme;
     // Getters, Setters, Constructors
 
+
+    public Long getIdCeme() {
+        return idCeme;
+    }
+
+    public void setIdCeme(Long idCeme) {
+        this.idCeme = idCeme;
+    }
 
     public Long getPostoId() {
         return postoId;

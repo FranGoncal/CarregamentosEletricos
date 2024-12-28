@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes da Fatura</title>
+    <title>Criar CEME</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -28,21 +28,22 @@
 </nav>
 
 <div class="container mt-5">
-    <h1 class="mb-4">Detalhes da Fatura</h1>
+    <h1 class="mb-4">Criar CEME</h1>
 
-    <div class="mt-4">
-        <p><strong>ID da Fatura:</strong> <span th:text="${fatura.id}"></span></p>
-        <p><strong>Email do Utilizador:</strong> <span th:text="${fatura.emailUtilizador}"></span></p>
-        <p><strong>Fornecedor de Energia:</strong> <span th:text="${nomeCeme}"></span></p>
-        <p><strong>Consumo de Energia:</strong> <span th:text="${fatura.consumoEnergia}"></span> kWh</p>
-        <p><strong>Custo Total:</strong> <span th:text="${fatura.custoTotal}"></span> €</p>
-        <p><strong>Data Emitida:</strong> <span th:text="${#temporals.format(fatura.dataEmitida, 'dd/MM/yyyy HH:mm')}"></span></p> <!-- Exibição da data emitida -->
-    </div>
+    <!-- Formulário para criar um novo CEME -->
+    <form th:action="@{/gestao/CEME/criar}" method="post">
+        <div class="mb-3">
+            <label for="fornecedor" class="form-label">Nome do Fornecedor</label>
+            <input type="text" class="form-control" id="fornecedor" name="fornecedor" placeholder="Informe o nome do fornecedor" required>
+        </div>
+        <div class="mb-3">
+            <label for="precoPorKWH" class="form-label">Preço por kWh</label>
+            <input type="number" class="form-control" id="precoPorKWH" name="precoPorKWH" step="0.01" placeholder="Informe o preço por kWh" required>
+        </div>
 
-    <!-- Exibição de mais detalhes (se necessário) -->
-    <div class="mt-5">
-        <a th:href="@{/faturas}" class="btn btn-secondary">Voltar à lista de faturas</a>
-    </div>
+        <button type="submit" class="btn btn-primary">Criar CEME</button>
+    </form>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

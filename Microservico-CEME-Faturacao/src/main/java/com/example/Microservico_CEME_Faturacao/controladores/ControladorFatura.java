@@ -26,7 +26,7 @@ public class ControladorFatura {
 //        Utilizador utilizador = new Utilizador();
 //        fatura.setUtilizador();
 
-
+        fatura.setIdCeme(sessionDetails.getIdCeme());
         fatura.setDataEmitida(LocalDateTime.now());
         fatura.setSessaoId(sessionDetails.getSessionId());
         fatura.setEmailUtilizador(sessionDetails.getUserEmail());

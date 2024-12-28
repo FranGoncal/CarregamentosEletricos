@@ -4,6 +4,8 @@ import com.example.OPC.modelos.PontoCarregamento;
 import com.example.OPC.modelos.PontoCarregamentoDTO;
 import com.example.OPC.repositorios.PontoCarregamentoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -103,5 +105,13 @@ public class ControladorPontosCarregamentoREST {
         return pontoCarregamentoRepositorio.save(pontoCarregamento);
     }
 
-
+    @DeleteMapping("/opc/ponto/eliminar")
+    public ResponseEntity<String> eliminarPonto(@RequestParam Long id){
+        try {
+            pontoCarregamentoRepositorio.deleteById(id);
+            return ResponseEntity.ok("Ponto de carregamento excluído com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir o ponto de carregamento");
+        }
+    }
 }

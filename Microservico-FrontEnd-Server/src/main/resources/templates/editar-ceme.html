@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes da Fatura</title>
+    <title>Editar CEME</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -28,21 +28,32 @@
 </nav>
 
 <div class="container mt-5">
-    <h1 class="mb-4">Detalhes da Fatura</h1>
+    <h1 class="mb-4">Editar CEME</h1>
 
-    <div class="mt-4">
-        <p><strong>ID da Fatura:</strong> <span th:text="${fatura.id}"></span></p>
-        <p><strong>Email do Utilizador:</strong> <span th:text="${fatura.emailUtilizador}"></span></p>
-        <p><strong>Fornecedor de Energia:</strong> <span th:text="${nomeCeme}"></span></p>
-        <p><strong>Consumo de Energia:</strong> <span th:text="${fatura.consumoEnergia}"></span> kWh</p>
-        <p><strong>Custo Total:</strong> <span th:text="${fatura.custoTotal}"></span> €</p>
-        <p><strong>Data Emitida:</strong> <span th:text="${#temporals.format(fatura.dataEmitida, 'dd/MM/yyyy HH:mm')}"></span></p> <!-- Exibição da data emitida -->
-    </div>
+    <!-- Formulário para editar o CEME -->
+    <form th:action="@{/gestao/CEME/editar}" method="post">
+        <div class="mb-3">
+            <label for="id" class="form-label">Id</label>
+            <input type="text" class="form-control" id="id" name="id" th:value="${ceme.id}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="ownerEmail" class="form-label">Email do Gestor</label>
+            <input type="email" class="form-control" id="ownerEmail" name="ownerEmail" th:value="${ceme.ownerEmail}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Nome do Fornecedor</label>
+            <input type="text" class="form-control" id="name" name="name" th:value="${ceme.name}" required>
+        </div>
+        <div class="mb-3">
+            <label for="precoPorKWh" class="form-label">Preço por kWh</label>
+            <input type="number" class="form-control" id="precoPorKWh" name="precoPorKWh" step="0.01" th:value="${ceme.precoPorKWh}" required>
+        </div>
 
-    <!-- Exibição de mais detalhes (se necessário) -->
-    <div class="mt-5">
-        <a th:href="@{/faturas}" class="btn btn-secondary">Voltar à lista de faturas</a>
-    </div>
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+
+        <!-- Link para eliminar o CEME -->
+        <a th:href="@{/gestao/CEME/eliminar/{id}(id=${ceme.id})}" class="btn btn-danger ms-3" onclick="return confirm('Tem a certeza que deseja eliminar este CEME?')">Eliminar</a>
+    </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
