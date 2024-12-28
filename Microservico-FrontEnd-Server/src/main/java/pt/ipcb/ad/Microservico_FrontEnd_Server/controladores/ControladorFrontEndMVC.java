@@ -108,10 +108,6 @@ public class ControladorFrontEndMVC {
     String startSimulacao(@PathVariable Long id, @RequestParam Long carroId, @RequestParam Long cemeId, Model model){
 
         //ver se o posto esta disponivel
-
-        System.out.println(proxyMicroservicoOPC.consultarEstado(id));
-        System.out.println(proxyMicroservicoOPC.consultarEstado(id).equals("disponivel"));
-
         if(!proxyMicroservicoOPC.consultarEstado(id).equals("disponivel")){
             throw new PostoIndisponivelException("O posto de carregamento não está disponível.");
         }
@@ -135,7 +131,6 @@ public class ControladorFrontEndMVC {
         List<SessaoCarregamento> sessoes = proxySimulacaoSessaoCarregamento.getSimulacoesByIdUtilizadorOrderByIdDesc(userService.getAuthenticatedUsername());
         model.addAttribute("sessoes", sessoes);
 
-        System.out.println(sessoes.size());
         return "lista-sessoes.html";
     }
     @GetMapping("/sessoes/{idSessao}")
@@ -153,6 +148,10 @@ public class ControladorFrontEndMVC {
 
         int percentagemCarregamento = proxySimulacaoSessaoCarregamento.getPercentagemCarregamento(sessaoCarregamento.get().getId());
         model.addAttribute("percentagemCarregamento",percentagemCarregamento);
+
+        String carro = proxyMicroservicoUtilizadorVeiculo.getNome(sessaoCarregamento.get().getIdVeiculo());
+        model.addAttribute("carro",carro);
+
         return "sessao.html";
     }
     @PostMapping("/sessoes/{idSessao}/terminar")
@@ -174,7 +173,6 @@ public class ControladorFrontEndMVC {
         List<Fatura> faturas = proxyCeme.consultarByEmailOrderByIdDesc(userService.getAuthenticatedUsername());
         model.addAttribute("faturas", faturas);
 
-        System.out.println(faturas.size());
         return "lista-faturas.html";
     }
     @GetMapping("/faturas/{idFatura}")
@@ -190,5 +188,45 @@ public class ControladorFrontEndMVC {
 
     //------------------------------------------------------------------------------
 
+    //----------------------------------OPC-----------------------------------------
+
+    @GetMapping("/gestao/OPC")
+    String getPostosProprios(Model model){
+        List<PontoCarregamento> listaPontos = proxyMicroservicoOPC.getPontosProrios(userService.getAuthenticatedUsername());
+        model.addAttribute("listaPontos", listaPontos);
+
+        return "lista-pontos-proprios.html";
+    }
+
+    @GetMapping("/gestao/OPC/adicionar")
+    String getCriarPonto(){
+        return "criar-ponto.html";
+    }
+    @GetMapping("/gestao/OPC/editar/{id}")
+    String getEditarPonto(Model model, @PathVariable Long id){
+        //obter o ponto
+        PontoCarregamento ponto = proxyMicroservicoOPC.getPontoProrio(id).get();
+        model.addAttribute("ponto",ponto);
+
+        System.out.println(ponto.getOwnerEmail());
+        return "editar-ponto.html";
+    }
+    @PostMapping("/gestao/OPC/editar")
+    String editarPonto(Model model, @RequestParam Long id, @RequestParam String local, @RequestParam String estado ,@RequestParam double maxCapacity){
+
+        //editar ponto
+        System.out.println(id);
+        System.out.println(local);
+        System.out.println(maxCapacity);
+        System.out.println(estado);
+
+        proxyMicroservicoOPC.editaPonto(id, local, estado ,maxCapacity);
+
+        //obter o ponto
+        PontoCarregamento ponto1 = proxyMicroservicoOPC.getPontoProrio(id).get();
+        model.addAttribute("ponto",ponto1);
+
+        return "editar-ponto.html";
+    }
 
 }

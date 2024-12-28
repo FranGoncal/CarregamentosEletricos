@@ -72,6 +72,25 @@ public class ControladorPontosCarregamentoREST {
         return pontoCarregamentoRepositorio.updateStatusById(id, status);
     }
 
+    @GetMapping("/opc")
+    public List<PontoCarregamento> getPontosProrios(@RequestParam String ownerEmail){
+        return pontoCarregamentoRepositorio.findByOwnerEmail(ownerEmail);
+    }
+    @GetMapping("/opc/ponto")
+    public Optional<PontoCarregamento> getPontoProrio(@RequestParam Long id){
+        return pontoCarregamentoRepositorio.findById(id);
+    }
+    @PutMapping("/opc/ponto/editar")
+    public PontoCarregamento editaPonto(@RequestParam Long id, @RequestParam String local, @RequestParam String estado, @RequestParam double capacidade)
+    {
+        PontoCarregamento pontoCarregamento = pontoCarregamentoRepositorio.getById(id);
+
+        pontoCarregamento.setMaxCapacity(capacidade);
+        pontoCarregamento.setLocal(local);
+        pontoCarregamento.setEstado(estado);
+
+        return pontoCarregamentoRepositorio.save(pontoCarregamento);
+    }
 
 
 }

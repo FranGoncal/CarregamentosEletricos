@@ -1,10 +1,6 @@
-package com.example.OPC.modelos;
+package pt.ipcb.ad.Microservico_FrontEnd_Server.modelos;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,10 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class PontoCarregamento {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String local;
     private String ownerEmail; //email da pessoa que faz a gestao deste ponto

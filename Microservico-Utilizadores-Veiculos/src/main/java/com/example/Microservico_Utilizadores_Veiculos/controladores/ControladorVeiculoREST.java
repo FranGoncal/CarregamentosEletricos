@@ -61,5 +61,11 @@ public class ControladorVeiculoREST {
         veiculoRepositorio.save(veiculo);
         return new ResponseEntity<>(veiculo.getBateriaAtual(), HttpStatus.OK);
     }
+    @GetMapping("/veiculos/{id}/nome")
+    public String getNome(@PathVariable Long id) {
+        Veiculo veiculo = veiculoRepositorio.findById(id).get();
+        return veiculo.getMarca()+" "+veiculo.getModelo();
+    }
+
 
 }

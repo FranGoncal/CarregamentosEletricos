@@ -50,7 +50,7 @@
         <p th:unless="${sessaoCarregamento.terminada}">
             <strong>Fim:</strong> A sessão ainda não foi terminada.
         </p>
-
+        <p><strong>Veiculo: </strong> <span th:text="${carro}"></span></p>
         <p><strong>Percentagem da Bateria:</strong> <span th:text="${percentagemCarregamento}"></span>%</p>
         <p><strong>Duração:</strong> <span th:text="${duracao}"></span></p>
     </div>

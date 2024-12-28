@@ -129,6 +129,29 @@ public class ControladorSessaoCarregamento {
         sessionDetails.setPostoId(sessao.get().getIdPosto());
 
         //TODO atualizar autonomia do carro!!
+        //obter sessao atual
+        Optional<SessaoCarregamento> sessaoCarregamento = sessaoCarregamentoRepositorio.findById(id);
+
+        Long idCarro = sessaoCarregamento.get().getIdVeiculo();
+
+        double bateriaAtual = proxyUtilizadoresVeiculos.bateriaAtual(idCarro);
+        double bateriaTotal = proxyUtilizadoresVeiculos.bateriaTotal(idCarro);
+        double carregamento = sessaoCarregamento.get().getCarregamento();
+        long duracaoSegundos = sessaoCarregamento.get().getDuracao().getSeconds();
+        double duracaoHoras = duracaoSegundos / 3600.0;
+        //Energia carregada (kWh)=Potencia de carregamento (kW)×Duracao (horas)
+        double energiaCarregada = carregamento * duracaoHoras;
+        double bateriaAposCarregamento = bateriaAtual + energiaCarregada;
+
+        if (bateriaAposCarregamento > bateriaTotal){
+            //atualizar bateria
+            proxyUtilizadoresVeiculos.atualizaBateria(idCarro,bateriaTotal);
+
+        }
+        else{
+            proxyUtilizadoresVeiculos.atualizaBateria(idCarro,bateriaAposCarregamento);
+        }
+
 
         //desocupar o posto
         proxyOPC.atualizar(sessao.get().getIdPosto(),"disponivel");
@@ -148,6 +171,10 @@ public class ControladorSessaoCarregamento {
 
         double bateriaAtual = proxyUtilizadoresVeiculos.bateriaAtual(idCarro);
         double bateriaTotal = proxyUtilizadoresVeiculos.bateriaTotal(idCarro);
+
+        if(sessaoCarregamento.get().getTerminada())
+            return (int) ((bateriaAtual*100)/bateriaTotal);
+
         double carregamento = sessaoCarregamento.get().getCarregamento();
         long duracaoSegundos = sessaoCarregamento.get().getDuracao().getSeconds();
 
@@ -161,15 +188,13 @@ public class ControladorSessaoCarregamento {
 
         if (bateriaAposCarregamento > bateriaTotal){
             //atualizar bateria
-            proxyUtilizadoresVeiculos.atualizaBateria(idCarro,bateriaTotal);
+            //proxyUtilizadoresVeiculos.atualizaBateria(idCarro,bateriaTotal);
             //terminar a sessao
             atualizar(id);
         }
         //proxyUtilizadoresVeiculos.atualizaBateria(idCarro,bateriaAposCarregamento);
 
         int percentagemCarregamento = (int) ((bateriaAposCarregamento*100)/bateriaTotal);
-        System.out.println("perc-"+percentagemCarregamento);
-        System.out.println("--------------------------------");
         return percentagemCarregamento;
     }
 

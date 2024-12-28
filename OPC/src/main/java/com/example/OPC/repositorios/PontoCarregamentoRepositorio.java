@@ -25,4 +25,5 @@ public interface PontoCarregamentoRepositorio extends JpaRepository<PontoCarrega
     @Query("UPDATE PontoCarregamento p SET p.estado = :status WHERE p.id = :id")
     Integer updateStatusById(@Param("id") Long id, @Param("status") String status);
 
+    List<PontoCarregamento> findByOwnerEmail(@Param("ownerEmail") String ownerEmail);
 }

@@ -27,4 +27,7 @@ public interface ProxyMicroservicoUtilizadorVeiculo {
 
     @GetMapping("/utilizadores/id/")
     public Long getId(@RequestParam String email);
+
+    @GetMapping("/veiculos/{id}/nome")
+    public String getNome(@PathVariable Long id);
 }
