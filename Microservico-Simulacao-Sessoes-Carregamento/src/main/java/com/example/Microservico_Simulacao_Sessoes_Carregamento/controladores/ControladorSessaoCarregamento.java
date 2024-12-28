@@ -32,26 +32,23 @@ public class ControladorSessaoCarregamento {
     ProxyOPC proxyOPC;
 
     @PostMapping("/Simulacao/{idPosto}/{idVeiculo}/{emailUtilizador}/{cemeId}")
-    public ResponseEntity<String> registrar(@PathVariable Long idPosto, @PathVariable Long idVeiculo, @PathVariable String emailUtilizador, @PathVariable Long cemeId) {
+    public Long registrar(@PathVariable Long idPosto, @PathVariable Long idVeiculo, @PathVariable String emailUtilizador, @PathVariable Long cemeId) {
 
         double precoCeme = proxyCemeFaturacao.getPreco(cemeId);
 
         // verificar se posto ta DISPONIVEL
-        if( !proxyOPC.consultarEstado(idPosto).equals("disponivel") )
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Posto Indisponivel");
+        //if( !proxyOPC.consultarEstado(idPosto).equals("disponivel") )
+            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Posto Indisponivel");
+            //TODO Throw exception
 
         //ocupar o posto
         proxyOPC.atualizar(idPosto,"EM_USO");
-        System.out.println("Mudei o estado do posto!");
 
         SessaoCarregamento sessaoCarregamento = new SessaoCarregamento();
 
         // arranjar a capacidadeCarregamento menor ou do ponto ou do carro
         double capacidadePonto = proxyOPC.consultarCapacidade(idPosto);
         double capacidadeVeiculo = proxyUtilizadoresVeiculos.capacidadeCarregamento(idVeiculo);
-
-        System.out.println("Capacidade carro = "+ capacidadeVeiculo);
-        System.out.println("Capacidade ponto = "+ capacidadePonto);
 
         if(capacidadeVeiculo < capacidadePonto) {
             sessaoCarregamento.setCarregamento(capacidadeVeiculo);
@@ -69,9 +66,7 @@ public class ControladorSessaoCarregamento {
 
         sessaoCarregamentoRepositorio.save(sessaoCarregamento);
 
-        System.out.println("Sessao criada!");
-
-        return ResponseEntity.ok("Sessão criada com sucesso");
+        return sessaoCarregamento.getId();
     }
     @GetMapping("/Simulacao/{id}")
     public Optional<SessaoCarregamento> consultar(@PathVariable Long id) {

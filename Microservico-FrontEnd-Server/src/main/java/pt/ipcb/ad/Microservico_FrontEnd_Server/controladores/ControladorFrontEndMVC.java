@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.excecoes.PostoIndisponivelException;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.CEME;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.PontoCarregamentoDTO;
+import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.SessaoCarregamento;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.Veiculo;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyCeme;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyMicroservicoOPC;
@@ -141,19 +142,39 @@ public class ControladorFrontEndMVC {
 
         //TODO ver se o carro é do user
 
-        System.out.println("Vou criar Simulacao =0");
-        //TODO criar simulacao
-        proxySimulacaoSessaoCarregamento.registrar(id,carroId,userService.getAuthenticatedUsername(), cemeId);
-        System.out.println("Simulacao CRIACA! :D");
+
+        //criar simulacao
+        Long idSessao = proxySimulacaoSessaoCarregamento.registrar(id,carroId,userService.getAuthenticatedUsername(), cemeId);
 
 
-        //TODO apresentar simulacao
-        return "lista-pontos.html";
+        //apresentar simulacao
+        return "redirect:/sessoes/"+idSessao;
     }
 
     //------------------------------------------------------------------------------
 
+    //------------------------SESSOES DE CARREGAMENTO-------------------------------
+    @GetMapping("/sessoes")
+    String getSessoes( Model model){
 
+        //TODO pesquisar sessoes pelo email
+        //List<PontoCarregamentoDTO> pontos = proxyMicroservicoOPC.listar(local);
+        //model.addAttribute("postos", pontos);
 
+        //TODO criar esta pagina semelhante a lista-pontos.html
+        return "lista-sessoes.html";
+    }
+    @GetMapping("/sessoes/{idSessao}")
+    String getSessoes(@PathVariable Long idSessao ,Model model){
+
+        //Obter dados da sessao
+        Optional<SessaoCarregamento> sessaoCarregamento = proxySimulacaoSessaoCarregamento.consultar(idSessao);
+        model.addAttribute("sessaoCarregamento", sessaoCarregamento.get());
+
+        //TODO criar esta pagina
+        return "sessao.html";
+    }
+
+    //------------------------------------------------------------------------------
 
 }
