@@ -227,10 +227,13 @@ public class ControladorFrontEndMVC {
     String adicionarPonto(@RequestParam String local, @RequestParam String estado ,@RequestParam double maxCapacity){
 
         String email = userService.getAuthenticatedUsername();
-
         proxyMicroservicoOPC.criarPonto(email,local,estado,maxCapacity);
 
         return "redirect:/gestao/OPC";
     }
+
+    //------------------------------------------------------------------------------
+
+    //----------------------------------CEME-----------------------------------------
 
 }
