@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pt.ipcb.ad.Microservico_FrontEnd_Server.excecoes.PostoIndisponivelException;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.CEME;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.PontoCarregamentoDTO;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.Veiculo;
@@ -14,6 +15,7 @@ import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyCeme;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyMicroservicoOPC;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyMicroservicoUtilizadorVeiculo;
 import org.springframework.security.core.Authentication;
+import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxySimulacaoSessaoCarregamento;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.services.UserService;
 
 import java.util.List;
@@ -33,9 +35,10 @@ public class ControladorFrontEndMVC {
     ProxyCeme proxyCeme;
 
     @Autowired
+    ProxySimulacaoSessaoCarregamento proxySimulacaoSessaoCarregamento;
+
+    @Autowired
     UserService userService;
-
-
 
     @GetMapping("/")
     String getIndex(Authentication authentication){
@@ -120,12 +123,33 @@ public class ControladorFrontEndMVC {
         List<PontoCarregamentoDTO> pontos = proxyMicroservicoOPC.listar(local);
         model.addAttribute("postos", pontos);
 
-
-
-
         return "lista-pontos.html";
     }
 
+
+    @GetMapping("/postos/{id}/simulacao")
+    String startSimulacao(@PathVariable Long id, @RequestParam Long carroId, @RequestParam Long cemeId, Model model){
+
+        //ver se o posto esta disponivel
+
+        System.out.println(proxyMicroservicoOPC.consultarEstado(id));
+        System.out.println(proxyMicroservicoOPC.consultarEstado(id).equals("disponivel"));
+
+        if(!proxyMicroservicoOPC.consultarEstado(id).equals("disponivel")){
+            throw new PostoIndisponivelException("O posto de carregamento não está disponível.");
+        }
+
+        //TODO ver se o carro é do user
+
+        System.out.println("Vou criar Simulacao =0");
+        //TODO criar simulacao
+        proxySimulacaoSessaoCarregamento.registrar(id,carroId,userService.getAuthenticatedUsername(), cemeId);
+        System.out.println("Simulacao CRIACA! :D");
+
+
+        //TODO apresentar simulacao
+        return "lista-pontos.html";
+    }
 
     //------------------------------------------------------------------------------
 

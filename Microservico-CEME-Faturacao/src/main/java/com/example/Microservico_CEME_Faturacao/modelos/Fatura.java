@@ -16,7 +16,7 @@ public class Fatura {
     private Long id;
 
     private Long sessaoId;
-    private Long utilizadorId;
+    private String emailUtilizadorId;
     private Long veiculoId;
 
     /*
@@ -53,12 +53,12 @@ public class Fatura {
         this.veiculoId = veiculoId;
     }
 
-    public Long getUtilizadorId() {
-        return utilizadorId;
+    public String getEmailUtilizadorId() {
+        return emailUtilizadorId;
     }
 
-    public void setUtilizadorId(Long utilizadorId) {
-        this.utilizadorId = utilizadorId;
+    public void setEmailUtilizador(String emailUtilizadorId) {
+        this.emailUtilizadorId = emailUtilizadorId;
     }
 
     public Long getId() {

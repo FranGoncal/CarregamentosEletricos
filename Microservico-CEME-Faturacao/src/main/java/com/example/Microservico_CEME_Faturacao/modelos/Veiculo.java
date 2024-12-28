@@ -13,8 +13,9 @@ public class Veiculo {
     private Long id;
     private String marca;
     private String modelo;
-    private double bateria;
-    private double autonomia;
+    private double bateria;                 //bateria total                         kWh
+    private double bateriaAtual;            //bateria atual                         kWh
+    private double capacidadeCarregamento;  //capacidade de carregar                kW
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -22,6 +23,8 @@ public class Veiculo {
     //@JsonManagedReference
     private Utilizador utilizador;
 
+    public double getBateriaAtual() { return bateriaAtual;}
+    public void setBateriaAtual(double bateriaAtual) { this.bateriaAtual = bateriaAtual; }
     public Long getId() {
         return id;
     }
@@ -46,11 +49,11 @@ public class Veiculo {
     public void setBateria(double bateria) {
         this.bateria = bateria;
     }
-    public double getAutonomia() {
-        return autonomia;
+    public double getCapacidadeCarregamento() {
+        return capacidadeCarregamento;
     }
-    public void setAutonomia(double autonomia) {
-        this.autonomia = autonomia;
+    public void setCapacidadeCarregamento(double capacidadeCarregamento) {
+        this.capacidadeCarregamento = capacidadeCarregamento;
     }
     public Utilizador getUtilizador() {
         return utilizador;

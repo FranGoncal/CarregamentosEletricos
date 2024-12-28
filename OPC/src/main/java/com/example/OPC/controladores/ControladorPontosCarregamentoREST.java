@@ -43,6 +43,11 @@ public class ControladorPontosCarregamentoREST {
         return pontoCarregamentoRepositorio.findById(id).get().getStatus();
     }
 
+    @GetMapping("/pontos-carregamento/capacidade/{id}")
+    public double consultarCapacidade(@PathVariable Long id) {
+        return pontoCarregamentoRepositorio.findById(id).get().getMaxCapacity();
+    }
+
     @GetMapping("/pontos-carregamento")
     public List<PontoCarregamentoDTO> listar(@RequestParam String local) {
 
@@ -66,5 +71,7 @@ public class ControladorPontosCarregamentoREST {
     public Integer atualizar(@PathVariable Long id, @RequestParam String status) {
         return pontoCarregamentoRepositorio.updateStatusById(id, status);
     }
+
+
 
 }

@@ -3,7 +3,6 @@ package com.example.Microservico_CEME_Faturacao.controladores;
 
 import com.example.Microservico_CEME_Faturacao.modelos.Fatura;
 import com.example.Microservico_CEME_Faturacao.modelos.SessionDetails;
-import com.example.Microservico_CEME_Faturacao.modelos.Utilizador;
 import com.example.Microservico_CEME_Faturacao.repositorios.FaturaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +27,7 @@ public class ControladorFatura {
 
 
         fatura.setSessaoId(sessionDetails.getSessionId());
-        fatura.setUtilizadorId(sessionDetails.getUserId());
+        fatura.setEmailUtilizador(sessionDetails.getUserEmail());
         fatura.setConsumoEnergia(sessionDetails.getEnergyConsumed());
         fatura.setVeiculoId(sessionDetails.getVeiculoId());
 
@@ -42,15 +41,15 @@ public class ControladorFatura {
     }
 
 
-    @PostMapping("/faturacao")
-    public Fatura registrar(@RequestParam Duration duracao, @RequestParam Long idUtilizador, @RequestParam Long idVeiculo, @RequestParam Long consumoEnergia, @RequestParam Long sessaoID) {
+    /*@PostMapping("/faturacao")
+    public Fatura registrar(@RequestParam Duration duracao, @RequestParam String emailUtilizador, @RequestParam Long idVeiculo, @RequestParam Long consumoEnergia, @RequestParam Long sessaoID) {
         Fatura fatura = new Fatura();
 
 //        Utilizador utilizador = new Utilizador();
 //        fatura.setUtilizador();
 
         fatura.setSessaoId(sessaoID);
-        fatura.setUtilizadorId(idUtilizador);
+        fatura.setEmailUtilizador(emailUtilizador);
         fatura.setConsumoEnergia(consumoEnergia);
         fatura.setVeiculoId(idVeiculo);
 
@@ -60,7 +59,7 @@ public class ControladorFatura {
 
         faturaRepositorio.save(fatura);
         return fatura;
-    }
+    }*/
 
     @GetMapping("/faturacao/{id}")
     public Optional<Fatura> consultar(@PathVariable Long id) {

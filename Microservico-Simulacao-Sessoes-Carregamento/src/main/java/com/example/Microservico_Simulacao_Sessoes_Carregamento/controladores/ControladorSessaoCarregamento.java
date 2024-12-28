@@ -5,6 +5,7 @@ import com.example.Microservico_Simulacao_Sessoes_Carregamento.modelos.SessaoCar
 import com.example.Microservico_Simulacao_Sessoes_Carregamento.proxies.ProxyCemeFaturacao;
 import com.example.Microservico_Simulacao_Sessoes_Carregamento.modelos.SessionDetails;
 import com.example.Microservico_Simulacao_Sessoes_Carregamento.proxies.ProxyOPC;
+import com.example.Microservico_Simulacao_Sessoes_Carregamento.proxies.ProxyUtilizadoresVeiculos;
 import com.example.Microservico_Simulacao_Sessoes_Carregamento.repositorios.SessaoCarregamentoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,29 +26,50 @@ public class ControladorSessaoCarregamento {
     ProxyCemeFaturacao proxyCemeFaturacao;
 
     @Autowired
+    ProxyUtilizadoresVeiculos proxyUtilizadoresVeiculos;
+
+    @Autowired
     ProxyOPC proxyOPC;
 
-    @PostMapping("/Simulacao/{idPosto}/{idVeiculo}/{idUtilizador}")
-    public ResponseEntity<String> registrar(@PathVariable Long idPosto, @PathVariable Long idVeiculo, @PathVariable Long idUtilizador) {
+    @PostMapping("/Simulacao/{idPosto}/{idVeiculo}/{emailUtilizador}/{cemeId}")
+    public ResponseEntity<String> registrar(@PathVariable Long idPosto, @PathVariable Long idVeiculo, @PathVariable String emailUtilizador, @PathVariable Long cemeId) {
+
+        double precoCeme = proxyCemeFaturacao.getPreco(cemeId);
 
         // verificar se posto ta DISPONIVEL
-        if( !proxyOPC.consultarEstado(idPosto).equals("DISPONIVEL") )
+        if( !proxyOPC.consultarEstado(idPosto).equals("disponivel") )
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Posto Indisponivel");
 
         //ocupar o posto
         proxyOPC.atualizar(idPosto,"EM_USO");
+        System.out.println("Mudei o estado do posto!");
 
         SessaoCarregamento sessaoCarregamento = new SessaoCarregamento();
 
-        // TODO arranjar o consumo menor ou do posto ou do carro!!!
-        sessaoCarregamento.setConsumoEnergia(666l);
+        // arranjar a capacidadeCarregamento menor ou do ponto ou do carro
+        double capacidadePonto = proxyOPC.consultarCapacidade(idPosto);
+        double capacidadeVeiculo = proxyUtilizadoresVeiculos.capacidadeCarregamento(idVeiculo);
+
+        System.out.println("Capacidade carro = "+ capacidadeVeiculo);
+        System.out.println("Capacidade ponto = "+ capacidadePonto);
+
+        if(capacidadeVeiculo < capacidadePonto) {
+            sessaoCarregamento.setCarregamento(capacidadeVeiculo);
+        }
+        else {
+            sessaoCarregamento.setCarregamento(capacidadePonto);
+        }
+
         sessaoCarregamento.setIdPosto(idPosto);
         sessaoCarregamento.setTerminada(false);
+        sessaoCarregamento.setPrecoCeme(precoCeme);
         sessaoCarregamento.setIdVeiculo(idVeiculo);
-        sessaoCarregamento.setIdUtilizador(idUtilizador);
+        sessaoCarregamento.setEmailUtilizador(emailUtilizador);
         sessaoCarregamento.setInicio(LocalDateTime.now());
 
         sessaoCarregamentoRepositorio.save(sessaoCarregamento);
+
+        System.out.println("Sessao criada!");
 
         return ResponseEntity.ok("Sessão criada com sucesso");
     }
@@ -90,11 +112,12 @@ public class ControladorSessaoCarregamento {
         SessionDetails sessionDetails = new SessionDetails();
 
         sessionDetails.setDuration(sessao.get().getDuracao());
-        sessionDetails.setEnergyConsumed(sessao.get().getConsumoEnergia());
+        //TODO calcular energia consumida sessionDetails.setEnergyConsumed(sessao.get().getCarregamento());
+        sessionDetails.setEnergyConsumed(888l);
 
         sessionDetails.setSessionId(sessao.get().getId());
         sessionDetails.setVeiculoId(sessao.get().getIdVeiculo());
-        sessionDetails.setUserId(sessao.get().getIdUtilizador());
+        sessionDetails.setUserEmail(sessao.get().getEmailUtilizador());
         sessionDetails.setPostoId(sessao.get().getIdPosto());
 
         //desocupar o posto

@@ -15,4 +15,6 @@ public interface ProxyOPC {
     @GetMapping("/pontos-carregamento/estado/{id}")
     public String consultarEstado(@PathVariable Long id);
 
+    @GetMapping("/pontos-carregamento/capacidade/{id}")
+    public double consultarCapacidade(@PathVariable Long id);
 }

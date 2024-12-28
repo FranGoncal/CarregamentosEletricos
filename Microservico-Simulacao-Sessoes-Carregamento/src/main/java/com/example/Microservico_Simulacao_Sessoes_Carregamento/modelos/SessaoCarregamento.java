@@ -23,21 +23,30 @@ public class SessaoCarregamento {
     private Long id;
     private Long idPosto;
     private Long idVeiculo;
-    private Long idUtilizador;
+    private String emailUtilizador;
+    private double precoCeme;
 
-    private Long consumoEnergia; //kWh
+
+    private double carregamento; //kW
     private LocalDateTime inicio;
     private LocalDateTime fim;
     private Duration duracao;
     private Boolean terminada;
 
-
-    public Long getIdUtilizador() {
-        return idUtilizador;
+    public double getPrecoCeme() {
+        return precoCeme;
     }
 
-    public void setIdUtilizador(Long idUtilizador) {
-        this.idUtilizador = idUtilizador;
+    public void setPrecoCeme(double precoCeme) {
+        this.precoCeme = precoCeme;
+    }
+
+    public String getEmailUtilizador() {
+        return emailUtilizador;
+    }
+
+    public void setEmailUtilizador(String emailUtilizador) {
+        this.emailUtilizador = emailUtilizador;
     }
 
     public Long getId() {
@@ -64,12 +73,12 @@ public class SessaoCarregamento {
         this.idVeiculo = idVeiculo;
     }
 
-    public Long getConsumoEnergia() {
-        return consumoEnergia;
+    public double getCarregamento() {
+        return carregamento;
     }
 
-    public void setConsumoEnergia(Long consumoEnergia) {
-        this.consumoEnergia = consumoEnergia;
+    public void setCarregamento(double carregamento) {
+        this.carregamento = carregamento;
     }
 
     public LocalDateTime getInicio() {

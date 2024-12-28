@@ -1,8 +1,6 @@
 package com.example.Microservico_Utilizadores_Veiculos.controladores;
 
-import com.example.Microservico_Utilizadores_Veiculos.modelos.Utilizador;
 import com.example.Microservico_Utilizadores_Veiculos.modelos.Veiculo;
-import com.example.Microservico_Utilizadores_Veiculos.repositorios.UtilizadorRepositorio;
 import com.example.Microservico_Utilizadores_Veiculos.repositorios.VeiculoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +22,7 @@ public class ControladorVeiculoREST {
         veiculo.setMarca(marca);
         veiculo.setModelo(modelo);
         veiculo.setBateria(bateria);
-        veiculo.setAutonomia(autonomia);
+        veiculo.setCapacidadeCarregamento(autonomia);
 
         veiculoRepositorio.save(veiculo);
         return veiculo;
@@ -37,4 +35,10 @@ public class ControladorVeiculoREST {
     public List<Veiculo> listar() {
         return veiculoRepositorio.findAll();
     }
+
+    @GetMapping("/veiculos/{id}/capacidadeCarregamento")
+    public double capacidadeCarregamento(@PathVariable Long id) {
+        return veiculoRepositorio.findById(id).get().getCapacidadeCarregamento();
+    }
+
 }

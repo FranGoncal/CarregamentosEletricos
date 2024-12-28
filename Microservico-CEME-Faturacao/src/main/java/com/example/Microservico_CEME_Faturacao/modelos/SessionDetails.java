@@ -2,7 +2,6 @@ package com.example.Microservico_CEME_Faturacao.modelos;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Duration;
@@ -15,7 +14,7 @@ public class SessionDetails {
     private Long sessionId;
     private Long energyConsumed;
     private Duration duration;
-    private Long userId;
+    private String userEmail;
     private Long veiculoId;
     private Long postoId;
     // Getters, Setters, Constructors
@@ -53,12 +52,12 @@ public class SessionDetails {
         this.duration = duration;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public Long getVeiculoId() {

@@ -17,4 +17,7 @@ public interface ProxyMicroservicoOPC {
 
     @GetMapping("/pontos-carregamento/{id}")
     public PontoCarregamentoDTO consultar(@PathVariable Long id);
+
+    @GetMapping("/pontos-carregamento/estado/{id}")
+    public String consultarEstado(@PathVariable Long id);
 }

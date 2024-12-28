@@ -6,10 +6,14 @@ import com.example.Microservico_Simulacao_Sessoes_Carregamento.modelos.SessionDe
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
+
 @FeignClient(name = "Microservico-CEME-Faturacao")
 public interface ProxyCemeFaturacao {
 
+    @GetMapping("/CEME/{id}")
+    public double getPreco(@PathVariable Long id);
+
     @PostMapping("/CEME-faturacao")
     public Fatura criar(@RequestBody SessionDetails sessionDetails);
-
 }

@@ -50,22 +50,25 @@ public class MicroservicoUtilizadoresVeiculosApplication implements ApplicationR
 		u4.setPassword("o");
 
 		Veiculo v1 = new Veiculo();
-		v1.setAutonomia(111);
-		v1.setBateria(111);
+		v1.setCapacidadeCarregamento(100);
+		v1.setBateria(120);
+		v1.setBateriaAtual(20);
 		v1.setMarca("bmw");
 		v1.setModelo("i4");
 		v1.setUtilizador(u1);
 
 		Veiculo v2 = new Veiculo();
-		v2.setAutonomia(100);
-		v2.setBateria(350);
+		v2.setCapacidadeCarregamento(200);
+		v2.setBateria(150);
+		v1.setBateriaAtual(50);
 		v2.setMarca("tesla");
 		v2.setModelo("model x");
 		v2.setUtilizador(u2);
 
 		Veiculo v3 = new Veiculo();
-		v3.setAutonomia(82);
-		v3.setBateria(350);
+		v3.setCapacidadeCarregamento(80);
+		v3.setBateria(210);
+		v1.setBateriaAtual(36);
 		v3.setMarca("tesla");
 		v3.setModelo("model y");
 		v3.setUtilizador(u1);

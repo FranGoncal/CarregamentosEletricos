@@ -1,7 +1,6 @@
 package com.example.Microservico_Utilizadores_Veiculos.modelos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,8 +16,9 @@ public class Veiculo {
     private Long id;
     private String marca;
     private String modelo;
-    private double bateria;   //quanto a bateria aguenta        kW
-    private double autonomia; //capacidade total                kWh
+    private double bateria;                 //bateria total                         kWh
+    private double bateriaAtual;            //bateria atual                         kWh
+    private double capacidadeCarregamento;  //capacidade de carregar                kW
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -58,12 +58,12 @@ public class Veiculo {
         this.bateria = bateria;
     }
 
-    public double getAutonomia() {
-        return autonomia;
+    public double getCapacidadeCarregamento() {
+        return capacidadeCarregamento;
     }
 
-    public void setAutonomia(double autonomia) {
-        this.autonomia = autonomia;
+    public void setCapacidadeCarregamento(double capacidadeCarregamento) {
+        this.capacidadeCarregamento = capacidadeCarregamento;
     }
 
     public Utilizador getUtilizador() {
@@ -72,5 +72,13 @@ public class Veiculo {
 
     public void setUtilizador(Utilizador utilizador) {
         this.utilizador = utilizador;
+    }
+
+    public double getBateriaAtual() {
+        return bateriaAtual;
+    }
+
+    public void setBateriaAtual(double bateriaAtual) {
+        this.bateriaAtual = bateriaAtual;
     }
 }
