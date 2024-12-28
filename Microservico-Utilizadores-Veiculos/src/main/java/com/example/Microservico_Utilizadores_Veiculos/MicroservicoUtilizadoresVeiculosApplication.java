@@ -60,7 +60,7 @@ public class MicroservicoUtilizadoresVeiculosApplication implements ApplicationR
 		Veiculo v2 = new Veiculo();
 		v2.setCapacidadeCarregamento(200);
 		v2.setBateria(150);
-		v1.setBateriaAtual(50);
+		v2.setBateriaAtual(50);
 		v2.setMarca("tesla");
 		v2.setModelo("model x");
 		v2.setUtilizador(u2);
@@ -68,7 +68,7 @@ public class MicroservicoUtilizadoresVeiculosApplication implements ApplicationR
 		Veiculo v3 = new Veiculo();
 		v3.setCapacidadeCarregamento(80);
 		v3.setBateria(210);
-		v1.setBateriaAtual(36);
+		v3.setBateriaAtual(36);
 		v3.setMarca("tesla");
 		v3.setModelo("model y");
 		v3.setUtilizador(u1);

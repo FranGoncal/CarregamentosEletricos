@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface SessaoCarregamentoRepositorio extends JpaRepository<SessaoCarregamento, Long> {
 
 
@@ -15,5 +17,5 @@ public interface SessaoCarregamentoRepositorio extends JpaRepository<SessaoCarre
     @Query("UPDATE SessaoCarregamento s SET s.terminada = :status WHERE s.id = :id")
     Integer updateStatusById(@Param("id") Long id, @Param("status") Boolean status);
 
-
+    List<SessaoCarregamento> findByEmailUtilizadorOrderByIdDesc(String emailUtilizador);
 }

@@ -1,6 +1,5 @@
-package com.example.Microservico_CEME_Faturacao.modelos;
+package pt.ipcb.ad.Microservico_FrontEnd_Server.modelos;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,18 +9,14 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Fatura {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long sessaoId;
     private String emailUtilizador;
     private Long veiculoId;
     private LocalDateTime dataEmitida;
-
     /*
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "utilizador_id", nullable = false)
@@ -29,8 +24,8 @@ public class Fatura {
     */
     private long consumoEnergia;
     private double custoTotal;
-    //private String statusPagamento;
 
+    //private String statusPagamento;
 
     public LocalDateTime getDataEmitida() {
         return dataEmitida;
@@ -39,7 +34,6 @@ public class Fatura {
     public void setDataEmitida(LocalDateTime dataEmitida) {
         this.dataEmitida = dataEmitida;
     }
-
     public Long getSessaoId() {
         return sessaoId;
     }

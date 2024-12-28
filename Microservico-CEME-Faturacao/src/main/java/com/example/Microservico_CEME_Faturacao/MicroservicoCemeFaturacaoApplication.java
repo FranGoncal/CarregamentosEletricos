@@ -30,7 +30,12 @@ public class MicroservicoCemeFaturacaoApplication implements ApplicationRunner {
 		ceme2.setName("CEME 2");
 		ceme2.setPrecoPorKWh(0.22);
 
+		CEME ceme3 = new CEME();
+		ceme3.setName("CEME 3");
+		ceme3.setPrecoPorKWh(0.30);
+
 		cemeRepositorio.save(ceme1);
 		cemeRepositorio.save(ceme2);
+		cemeRepositorio.save(ceme3);
 	}
 }

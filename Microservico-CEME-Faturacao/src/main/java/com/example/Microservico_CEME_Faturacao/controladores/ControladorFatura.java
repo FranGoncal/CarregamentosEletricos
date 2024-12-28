@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,7 @@ public class ControladorFatura {
 //        fatura.setUtilizador();
 
 
+        fatura.setDataEmitida(LocalDateTime.now());
         fatura.setSessaoId(sessionDetails.getSessionId());
         fatura.setEmailUtilizador(sessionDetails.getUserEmail());
         fatura.setConsumoEnergia(sessionDetails.getEnergyConsumed());
@@ -69,5 +71,8 @@ public class ControladorFatura {
     public List<Fatura> listar() {
         return faturaRepositorio.findAll();
     }
-
+    @GetMapping("/faturas/{emailUtilizador}")
+    public List<Fatura> consultarByEmail(@RequestParam String emailUtilizador) {
+        return faturaRepositorio.findByEmailUtilizadorOrderByIdDesc(emailUtilizador);
+    }
 }

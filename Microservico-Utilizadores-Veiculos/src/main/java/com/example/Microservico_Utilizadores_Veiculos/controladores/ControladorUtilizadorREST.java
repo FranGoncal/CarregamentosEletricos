@@ -71,4 +71,17 @@ public class ControladorUtilizadorREST {
         Optional<Utilizador> user = utilizadorRepositorio.findByEmail(email);
         return user.get().getVehicles();
     }
+
+    @GetMapping("/utilizadores/id/")
+    public Long getId(@RequestParam String email) {
+
+        // ver se existe realmente este user
+        Utilizador user = utilizadorRepositorio.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User não encontrado!"));
+
+        Optional<Utilizador> utilizador=utilizadorRepositorio.findByEmail(email);
+        return utilizador.get().getId();
+    }
+
+
 }

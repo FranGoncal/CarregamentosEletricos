@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -89,6 +90,18 @@ public class ControladorSessaoCarregamento {
         return sessaoCarregamentoRepositorio.findAll();
     }
 
+    @GetMapping("/Simulacao/utilizador/{emailUtilizador}")
+    public List<SessaoCarregamento> getSimulacoesByIdUtilizador(@PathVariable String emailUtilizador) {
+        List<SessaoCarregamento> listaSessoes= sessaoCarregamentoRepositorio.findByEmailUtilizadorOrderByIdDesc(emailUtilizador);
+
+        /*for(SessaoCarregamento sessao : listaSessoes){
+            sessao.atualizaDuracao();
+            sessaoCarregamentoRepositorio.save(sessao);
+        }*/
+
+        return listaSessoes;
+    }
+
     @PutMapping("/Simulacao/terminar/{id}")
     public ResponseEntity<String> atualizar(@PathVariable Long id) {
 
@@ -115,12 +128,50 @@ public class ControladorSessaoCarregamento {
         sessionDetails.setUserEmail(sessao.get().getEmailUtilizador());
         sessionDetails.setPostoId(sessao.get().getIdPosto());
 
+        //TODO atualizar autonomia do carro!!
+
         //desocupar o posto
-        proxyOPC.atualizar(sessao.get().getIdPosto(),"DISPONIVEL");
+        proxyOPC.atualizar(sessao.get().getIdPosto(),"disponivel");
         //Criar fatura
         proxyCemeFaturacao.criar(sessionDetails);
         sessaoCarregamentoRepositorio.updateStatusById(id, true);
         return ResponseEntity.ok("Sessão terminada com sucesso");
     }
+
+    @GetMapping("/Simulacao/{id}/percentagemCarregamento")
+    public int getPercentagemCarregamento(@PathVariable Long id) {
+
+        //obter sessao atual
+        Optional<SessaoCarregamento> sessaoCarregamento = sessaoCarregamentoRepositorio.findById(id);
+
+        Long idCarro = sessaoCarregamento.get().getIdVeiculo();
+
+        double bateriaAtual = proxyUtilizadoresVeiculos.bateriaAtual(idCarro);
+        double bateriaTotal = proxyUtilizadoresVeiculos.bateriaTotal(idCarro);
+        double carregamento = sessaoCarregamento.get().getCarregamento();
+        long duracaoSegundos = sessaoCarregamento.get().getDuracao().getSeconds();
+
+        double duracaoHoras = duracaoSegundos / 3600.0;
+        //Energia carregada (kWh)=Potencia de carregamento (kW)×Duracao (horas)
+        double energiaCarregada = carregamento * duracaoHoras;
+
+
+
+        double bateriaAposCarregamento = bateriaAtual + energiaCarregada;
+
+        if (bateriaAposCarregamento > bateriaTotal){
+            //atualizar bateria
+            proxyUtilizadoresVeiculos.atualizaBateria(idCarro,bateriaTotal);
+            //terminar a sessao
+            atualizar(id);
+        }
+        //proxyUtilizadoresVeiculos.atualizaBateria(idCarro,bateriaAposCarregamento);
+
+        int percentagemCarregamento = (int) ((bateriaAposCarregamento*100)/bateriaTotal);
+        System.out.println("perc-"+percentagemCarregamento);
+        System.out.println("--------------------------------");
+        return percentagemCarregamento;
+    }
+
 
 }

@@ -3,20 +3,11 @@ package pt.ipcb.ad.Microservico_FrontEnd_Server.controladores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.excecoes.PostoIndisponivelException;
-import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.CEME;
-import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.PontoCarregamentoDTO;
-import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.SessaoCarregamento;
-import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.Veiculo;
-import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyCeme;
-import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyMicroservicoOPC;
-import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyMicroservicoUtilizadorVeiculo;
+import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.*;
+import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.*;
 import org.springframework.security.core.Authentication;
-import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxySimulacaoSessaoCarregamento;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.services.UserService;
 
 import java.util.List;
@@ -48,13 +39,6 @@ public class ControladorFrontEndMVC {
         } else {
             return "login.html";  // Se não autenticado
         }
-        /*
-        //TODO lógica
-        //Se nao esta autenticado
-        return "login.html";
-        //se esta autenticado
-        //return "pagina_inicial.html";
-         */
     }
 
     @GetMapping("/registo")
@@ -66,14 +50,6 @@ public class ControladorFrontEndMVC {
         return "acesso-negado.html";
     }
 
-    /*@PostMapping("/login")
-    String login(){
-        //TODO dar login do gajo
-        System.out.println("vim aqui");
-        //TODO redirec to gajo again para o ("/")
-        //por enquanto fica assim:
-        return "redirect:/inicio";
-    }*/
     @GetMapping("/inicio")
     String inicio(){
 
@@ -85,8 +61,8 @@ public class ControladorFrontEndMVC {
     String registar(@RequestParam String email,
                     @RequestParam String nome,
                     @RequestParam String password){
-        System.out.println("Registei um utilizador: "+email);
         //TODO Ver se pode criar utilizador
+
 
         //criar utilizador
         proxyMicroservicoUtilizadorVeiculo.registrar(email,nome,password,"STANDARD");
@@ -142,7 +118,6 @@ public class ControladorFrontEndMVC {
 
         //TODO ver se o carro é do user
 
-
         //criar simulacao
         Long idSessao = proxySimulacaoSessaoCarregamento.registrar(id,carroId,userService.getAuthenticatedUsername(), cemeId);
 
@@ -156,12 +131,11 @@ public class ControladorFrontEndMVC {
     //------------------------SESSOES DE CARREGAMENTO-------------------------------
     @GetMapping("/sessoes")
     String getSessoes( Model model){
+        //pesquisar sessoes pelo email
+        List<SessaoCarregamento> sessoes = proxySimulacaoSessaoCarregamento.getSimulacoesByIdUtilizadorOrderByIdDesc(userService.getAuthenticatedUsername());
+        model.addAttribute("sessoes", sessoes);
 
-        //TODO pesquisar sessoes pelo email
-        //List<PontoCarregamentoDTO> pontos = proxyMicroservicoOPC.listar(local);
-        //model.addAttribute("postos", pontos);
-
-        //TODO criar esta pagina semelhante a lista-pontos.html
+        System.out.println(sessoes.size());
         return "lista-sessoes.html";
     }
     @GetMapping("/sessoes/{idSessao}")
@@ -170,11 +144,51 @@ public class ControladorFrontEndMVC {
         //Obter dados da sessao
         Optional<SessaoCarregamento> sessaoCarregamento = proxySimulacaoSessaoCarregamento.consultar(idSessao);
         model.addAttribute("sessaoCarregamento", sessaoCarregamento.get());
+        long totalSegundos = sessaoCarregamento.get().getDuracao().getSeconds();
+        long horas = totalSegundos/3600;
+        totalSegundos = totalSegundos%3600;
+        long minutos = totalSegundos/60;
+        long segundos = totalSegundos%60;
+        model.addAttribute("duracao", horas+":"+minutos+":"+segundos);
 
-        //TODO criar esta pagina
+        int percentagemCarregamento = proxySimulacaoSessaoCarregamento.getPercentagemCarregamento(sessaoCarregamento.get().getId());
+        model.addAttribute("percentagemCarregamento",percentagemCarregamento);
         return "sessao.html";
+    }
+    @PostMapping("/sessoes/{idSessao}/terminar")
+    String terminaSessao(@PathVariable Long idSessao){
+
+        //terminar sessao;
+        proxySimulacaoSessaoCarregamento.atualizar(idSessao);
+
+        return "redirect:/sessoes/"+idSessao;
     }
 
     //------------------------------------------------------------------------------
+
+    //----------------------------------FATURAS-------------------------------------
+
+    @GetMapping("/faturas")
+    String getFaturas( Model model){
+        //pesquisar sessoes pelo email
+        List<Fatura> faturas = proxyCeme.consultarByEmailOrderByIdDesc(userService.getAuthenticatedUsername());
+        model.addAttribute("faturas", faturas);
+
+        System.out.println(faturas.size());
+        return "lista-faturas.html";
+    }
+    @GetMapping("/faturas/{idFatura}")
+    String getFaturas( Model model, @PathVariable Long idFatura){
+        //Obter dados da fatura
+        Optional<Fatura> fatura = proxyCeme.consultar(idFatura);
+        model.addAttribute("fatura", fatura.get());
+
+        return "fatura.html";
+    }
+
+
+
+    //------------------------------------------------------------------------------
+
 
 }
