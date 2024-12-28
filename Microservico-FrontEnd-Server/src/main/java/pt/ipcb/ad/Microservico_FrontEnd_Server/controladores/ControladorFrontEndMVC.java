@@ -215,11 +215,6 @@ public class ControladorFrontEndMVC {
     String editarPonto(Model model, @RequestParam Long id, @RequestParam String local, @RequestParam String estado ,@RequestParam double maxCapacity){
 
         //editar ponto
-        System.out.println(id);
-        System.out.println(local);
-        System.out.println(maxCapacity);
-        System.out.println(estado);
-
         proxyMicroservicoOPC.editaPonto(id, local, estado ,maxCapacity);
 
         //obter o ponto
@@ -227,6 +222,15 @@ public class ControladorFrontEndMVC {
         model.addAttribute("ponto",ponto1);
 
         return "editar-ponto.html";
+    }
+    @PostMapping("/gestao/OPC/adicionar-ponto")
+    String adicionarPonto(@RequestParam String local, @RequestParam String estado ,@RequestParam double maxCapacity){
+
+        String email = userService.getAuthenticatedUsername();
+
+        proxyMicroservicoOPC.criarPonto(email,local,estado,maxCapacity);
+
+        return "redirect:/gestao/OPC";
     }
 
 }

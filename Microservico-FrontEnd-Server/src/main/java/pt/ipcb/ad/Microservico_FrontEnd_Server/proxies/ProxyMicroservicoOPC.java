@@ -28,4 +28,7 @@ public interface ProxyMicroservicoOPC {
 
     @PutMapping("/opc/ponto/editar")
     public PontoCarregamento editaPonto(@RequestParam Long id, @RequestParam String local, @RequestParam String estado, @RequestParam double capacidade);
+
+    @PostMapping("/opc/ponto/criar")
+    public PontoCarregamento criarPonto(@RequestParam String email, @RequestParam String local, @RequestParam String estado, @RequestParam double capacidade);
 }

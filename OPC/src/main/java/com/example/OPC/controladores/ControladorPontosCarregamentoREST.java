@@ -91,6 +91,17 @@ public class ControladorPontosCarregamentoREST {
 
         return pontoCarregamentoRepositorio.save(pontoCarregamento);
     }
+    @PostMapping("/opc/ponto/criar")
+    public PontoCarregamento criarPonto(@RequestParam String email, @RequestParam String local, @RequestParam String estado, @RequestParam double capacidade){
+        PontoCarregamento pontoCarregamento = new PontoCarregamento();
+
+        pontoCarregamento.setMaxCapacity(capacidade);
+        pontoCarregamento.setLocal(local);
+        pontoCarregamento.setEstado(estado);
+        pontoCarregamento.setOwnerEmail(email);
+
+        return pontoCarregamentoRepositorio.save(pontoCarregamento);
+    }
 
 
 }
