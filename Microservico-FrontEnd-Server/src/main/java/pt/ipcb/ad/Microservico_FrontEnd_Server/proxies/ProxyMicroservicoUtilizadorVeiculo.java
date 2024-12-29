@@ -59,4 +59,15 @@ public interface ProxyMicroservicoUtilizadorVeiculo {
 
     @PutMapping("/utilizador/{email}/adiciona-veiculo")
     public ResponseEntity<String> adicionaVeiculo(@PathVariable String email, @RequestBody Veiculo veiculo);
+
+    @PutMapping("/veiculos/{idVeiculo}/editar")
+    public ResponseEntity<String> editaVeiculo(@PathVariable Long idVeiculo,
+                                               @RequestParam String marca,
+                                               @RequestParam String modelo,
+                                               @RequestParam double bateria,
+                                               @RequestParam double bateriaAtual,
+                                               @RequestParam double capacidadeCarregamento);
+
+    @GetMapping("/utilizadores/idUser")
+    public Long getUserId(@RequestParam String email);
 }

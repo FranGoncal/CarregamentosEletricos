@@ -12,7 +12,7 @@ import java.time.Duration;
 //Mensagem enviada **(Simulacao->CemeFaturacao)**
 public class SessionDetails {
     private Long sessionId;
-    private Long energyConsumed;
+    private double energyConsumed;
     private Duration duration;
     private String userEmail;
     private Long veiculoId;
@@ -45,11 +45,11 @@ public class SessionDetails {
         this.sessionId = sessionId;
     }
 
-    public Long getEnergyConsumed() {
+    public double getEnergyConsumed() {
         return energyConsumed;
     }
 
-    public void setEnergyConsumed(Long energyConsumed) {
+    public void setEnergyConsumed(double energyConsumed) {
         this.energyConsumed = energyConsumed;
     }
 

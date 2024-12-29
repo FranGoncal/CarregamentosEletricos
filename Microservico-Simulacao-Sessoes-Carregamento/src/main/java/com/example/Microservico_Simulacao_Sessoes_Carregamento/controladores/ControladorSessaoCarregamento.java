@@ -121,8 +121,11 @@ public class ControladorSessaoCarregamento {
         SessionDetails sessionDetails = new SessionDetails();
 
         sessionDetails.setDuration(sessao.get().getDuracao());
-        //TODO calcular energia consumida sessionDetails.setEnergyConsumed(sessao.get().getCarregamento());
-        sessionDetails.setEnergyConsumed(888l);
+        //calcular energia consumida
+
+        double horas = (double) sessao.get().getDuracao().getSeconds() / 3600;
+        sessionDetails.setEnergyConsumed((sessao.get().getCarregamento() * horas));
+        System.out.println(sessionDetails.getEnergyConsumed());
 
         sessionDetails.setIdCeme(sessao.get().getIdCeme());
         sessionDetails.setSessionId(sessao.get().getId());
@@ -130,7 +133,6 @@ public class ControladorSessaoCarregamento {
         sessionDetails.setUserEmail(sessao.get().getEmailUtilizador());
         sessionDetails.setPostoId(sessao.get().getIdPosto());
 
-        //TODO atualizar autonomia do carro!!
         //obter sessao atual
         Optional<SessaoCarregamento> sessaoCarregamento = sessaoCarregamentoRepositorio.findById(id);
 

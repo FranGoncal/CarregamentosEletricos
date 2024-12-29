@@ -78,7 +78,6 @@ public class ControladorUtilizadorREST {
             throw new BadCredentialsException("Credenciais incorretas!");
         }
         UtilizadorDTO userDTO = new UtilizadorDTO();
-
         //preparar informacoes do utilizador
         userDTO.setEmail(user.getEmail());
         userDTO.setName(user.getName());
@@ -87,6 +86,12 @@ public class ControladorUtilizadorREST {
         userDTO.setVehicles(user.getVehicles());
 
         return userDTO;
+    }
+
+    @GetMapping("/utilizadores/idUser")
+    public Long getUserId(@RequestParam String email) {
+        Utilizador user = utilizadorRepositorio.findByEmail(email).get();
+        return user.getId();
     }
 
     @GetMapping("/utilizadores/veiculos")

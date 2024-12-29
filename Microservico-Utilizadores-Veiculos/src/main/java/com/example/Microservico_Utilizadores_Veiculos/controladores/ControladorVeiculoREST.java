@@ -81,7 +81,23 @@ public class ControladorVeiculoREST {
         veiculoRepositorio.deleteById(id);
         return ResponseEntity.ok("Veiculo removido com sucesso");
     }
+    @PutMapping("/veiculos/{idVeiculo}/editar")
+    public ResponseEntity<String> editaVeiculo(@PathVariable Long idVeiculo,
+                                               @RequestParam String marca,
+                                               @RequestParam String modelo,
+                                               @RequestParam double bateria,
+                                               @RequestParam double bateriaAtual,
+                                               @RequestParam double capacidadeCarregamento){
+        Veiculo veiculo = consultar(idVeiculo).get();
 
+        veiculo.setBateriaAtual(bateriaAtual);
+        veiculo.setBateria(bateria);
+        veiculo.setModelo(modelo);
+        veiculo.setMarca(marca);
+        veiculo.setCapacidadeCarregamento(capacidadeCarregamento);
 
+        veiculoRepositorio.save(veiculo);
+        return ResponseEntity.ok("Veiculo editado com sucesso");
+    }
 
 }

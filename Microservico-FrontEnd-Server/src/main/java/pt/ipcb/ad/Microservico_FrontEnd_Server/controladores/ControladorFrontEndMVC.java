@@ -339,7 +339,7 @@ public class ControladorFrontEndMVC {
     }
     @PostMapping("/gestao/ADMIN/utilizadores/editar/{id}")
     String editarUser(Model model,@PathVariable Long id,@RequestParam String name, @RequestParam String role){
-        System.out.println("oi");
+
         proxyMicroservicoUtilizadorVeiculo.editaUser(id,name,role);
 
         UtilizadorDTO user = proxyMicroservicoUtilizadorVeiculo.getUserSeguro(id);
@@ -357,14 +357,36 @@ public class ControladorFrontEndMVC {
 
         return "lista-veiculos.html";
     }
-    @GetMapping("/gestao/ADMIN/utilizadores/{id}/veiculos/{idVeiculo}/remover")
+    @GetMapping("/gestao/ADMIN/utilizadores/{id}/veiculos/{idVeiculo}")
     String getUserVeiculos(Model model, @PathVariable Long id, @PathVariable Long idVeiculo){
+
+        Veiculo veiculo = proxyMicroservicoUtilizadorVeiculo.consultar(idVeiculo).get();
+        model.addAttribute("veiculo",veiculo);
+        model.addAttribute("id",id);
+
+        return "editar-veiculo.html";
+    }
+    @PostMapping("/gestao/ADMIN/utilizadores/{id}/veiculos/{idVeiculo}/edicao")
+    String editarVeiculo(Model model, @PathVariable Long id,
+                         @PathVariable Long idVeiculo,
+                         @RequestParam String marca,
+                         @RequestParam String modelo,
+                         @RequestParam double bateria,
+                         @RequestParam double bateriaAtual,
+                         @RequestParam double capacidadeCarregamento){
+        //editar objeto
+        proxyMicroservicoUtilizadorVeiculo.editaVeiculo(idVeiculo,marca, modelo,bateria,bateriaAtual,capacidadeCarregamento);
+
+        return "redirect:/gestao/ADMIN/utilizadores/"+id+"/veiculos/"+idVeiculo;
+    }
+
+    @GetMapping("/gestao/ADMIN/utilizadores/{id}/veiculos/{idVeiculo}/remover")
+    String getEditarVeiculo(Model model, @PathVariable Long id, @PathVariable Long idVeiculo){
         //remover veiculo da lista do user
         proxyMicroservicoUtilizadorVeiculo.removerVeiculo(id,idVeiculo);
 
         //remover veiculo da BD
         proxyMicroservicoUtilizadorVeiculo.apagarVeiculo(idVeiculo);
-
         return "redirect:/gestao/ADMIN/utilizadores/"+id+"/veiculos";
     }
     @GetMapping("/gestao/ADMIN/utilizadores/{id}/veiculos/adicionar")
@@ -384,11 +406,10 @@ public class ControladorFrontEndMVC {
                                    @RequestParam double bateriaAtual,
                                    @RequestParam double capacidadeCarregamento){
 
+        Long idUser = proxyMicroservicoUtilizadorVeiculo.getUserId(email);
         //criar objeto e guardar
-        Veiculo veiculo = proxyMicroservicoUtilizadorVeiculo.registrar(marca,modelo,bateria,bateriaAtual,capacidadeCarregamento,id);
-        System.out.println(proxyMicroservicoUtilizadorVeiculo.adicionaVeiculo(email,veiculo));
-        //adicionar ao set do utilizador
-
+        Veiculo veiculo = proxyMicroservicoUtilizadorVeiculo.registrar(marca,modelo,bateria,bateriaAtual,capacidadeCarregamento,idUser);
+        //System.out.println(proxyMicroservicoUtilizadorVeiculo.adicionaVeiculo(email,veiculo));
 
         model.addAttribute("id",id);
         return "redirect:/gestao/ADMIN/utilizadores/"+id+"/veiculos";

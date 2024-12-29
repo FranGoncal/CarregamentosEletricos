@@ -36,7 +36,8 @@ public interface ProxyCeme {
     @PostMapping("/CEME/criar")
     public CEME criarCeme(@RequestParam String email,@RequestParam String fornecedor,@RequestParam double precoPorKWH);
 
-
     @DeleteMapping("CEME/eliminar")
     public ResponseEntity<String> eliminarCeme(@RequestParam Long id);
+
+
 }
