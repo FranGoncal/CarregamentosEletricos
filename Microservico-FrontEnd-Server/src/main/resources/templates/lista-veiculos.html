@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Veículos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav style="border-bottom: 1px solid black;" class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/MICROSERVICO-FRONTEND-SERVER/">Sistema de Carregamento</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="/MICROSERVICO-FRONTEND-SERVER/postos">Postos de Carregamento</a></li>
+                <li class="nav-item"><a class="nav-link" href="/MICROSERVICO-FRONTEND-SERVER/sessoes">Sessões de Carregamento</a></li>
+                <li class="nav-item"><a class="nav-link" href="/MICROSERVICO-FRONTEND-SERVER/faturas">Fáturas</a></li>
+                <li class="nav-item"><a class="nav-link" href="/MICROSERVICO-FRONTEND-SERVER/gestao/OPC">Gestão de OPC</a></li>
+                <li class="nav-item"><a class="nav-link" href="/MICROSERVICO-FRONTEND-SERVER/gestao/CEME">Gestão de CEME</a></li>
+                <li class="nav-item"><a class="nav-link" href="/MICROSERVICO-FRONTEND-SERVER/gestao/ADMIN">Gestão de ADMIN</a></li>
+                <li class="nav-item"><a class="nav-link" href="/MICROSERVICO-FRONTEND-SERVER/logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Listagem de Veículos</h1>
+
+    <!-- Botão para adicionar um novo veículo -->
+    <a th:href="@{/gestao/ADMIN/utilizadores/{id}/veiculos/adicionar(id=${id})}" class="btn btn-success mb-3">Adicionar Veículo</a>
+
+    <div class="list-group">
+        <!-- Exibição dos veículos -->
+        <div th:each="veiculo : ${veiculos}" class="list-group-item">
+            <h5>Veículo ID: <span th:text="${veiculo.id}"></span></h5>
+            <p><strong>Marca:</strong> <span th:text="${veiculo.marca}"></span></p>
+            <p><strong>Modelo:</strong> <span th:text="${veiculo.modelo}"></span></p>
+
+            <!-- Link clicável para ver detalhes do veículo -->
+            <a th:href="@{/gestao/ADMIN/utilizadores/{id}/veiculos/{idVeiculo}(id=${id}, idVeiculo=${veiculo.id})}" class="btn btn-primary">Ver Detalhes</a>
+            <form th:action="@{/gestao/ADMIN/utilizadores/{id}/veiculos/{veiculoId}/remover(id=${id}, veiculoId=${veiculo.id})}" method="get" class="d-inline-block ms-2">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Tem a certeza que deseja remover este veículo?')">Remover</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Caso a lista de veículos esteja vazia -->
+    <div th:if="${#lists.isEmpty(veiculos)}" class="mt-4">
+        <p>Nenhum veículo encontrado.</p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

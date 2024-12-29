@@ -1,6 +1,7 @@
 package pt.ipcb.ad.Microservico_FrontEnd_Server.controladores;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -196,8 +197,6 @@ public class ControladorFrontEndMVC {
     //------------------------------------------------------------------------------
 
     //----------------------------------OPC-----------------------------------------
-
-
     @GetMapping("/gestao/OPC/eliminar/{id}")
     String eliminaPonto(Model model,@PathVariable Long id){
 
@@ -309,7 +308,91 @@ public class ControladorFrontEndMVC {
     //------------------------------------------------------------------------------
 
     //----------------------------------ADMIN---------------------------------------
+    @GetMapping("/gestao/ADMIN")
+    String getServicosADMIN(Model model){
 
+        List<UtilizadorDTO> listaUsers = proxyMicroservicoUtilizadorVeiculo.listarSeguro();
+        model.addAttribute("utilizadores", listaUsers);
+        return "lista-users.html";
+    }
+    @GetMapping("/gestao/ADMIN/utilizadores/criar")
+    String getCriarUser(){
+        return "criar-utilizador.html";
+    }
+    @PostMapping("/gestao/ADMIN/utilizadores/criar-user")
+    String criarUser(@RequestParam String name, @RequestParam String email, @RequestParam String password, @RequestParam String role){
+        proxyMicroservicoUtilizadorVeiculo.registrar(email,name,password,role);
+        return "redirect:/gestao/ADMIN";
+    }
+    @GetMapping("/gestao/ADMIN/utilizadores/{id}")
+    String getUser(Model model, @PathVariable Long id){
+
+        UtilizadorDTO user = proxyMicroservicoUtilizadorVeiculo.getUserSeguro(id);
+        model.addAttribute("utilizador",user);
+
+        return "editar-utilizador.html";
+    }
+    @GetMapping("/gestao/ADMIN/utilizadores/eliminar/{id}")
+    String eliminarUser(@PathVariable Long id){
+        proxyMicroservicoUtilizadorVeiculo.eliminarUser(id);
+        return "redirect:/gestao/ADMIN";
+    }
+    @PostMapping("/gestao/ADMIN/utilizadores/editar/{id}")
+    String editarUser(Model model,@PathVariable Long id,@RequestParam String name, @RequestParam String role){
+        System.out.println("oi");
+        proxyMicroservicoUtilizadorVeiculo.editaUser(id,name,role);
+
+        UtilizadorDTO user = proxyMicroservicoUtilizadorVeiculo.getUserSeguro(id);
+        model.addAttribute("utilizador",user);
+
+        return "editar-utilizador.html";
+    }
+    @GetMapping("/gestao/ADMIN/utilizadores/{id}/veiculos")
+    String getUserVeiculos(Model model, @PathVariable Long id){
+        UtilizadorDTO utilizadorDTO = proxyMicroservicoUtilizadorVeiculo.getUserSeguro(id);
+
+        Set<Veiculo> veiculos = utilizadorDTO.getVehicles();
+        model.addAttribute("veiculos",veiculos);
+        model.addAttribute("id",id);
+
+        return "lista-veiculos.html";
+    }
+    @GetMapping("/gestao/ADMIN/utilizadores/{id}/veiculos/{idVeiculo}/remover")
+    String getUserVeiculos(Model model, @PathVariable Long id, @PathVariable Long idVeiculo){
+        //remover veiculo da lista do user
+        proxyMicroservicoUtilizadorVeiculo.removerVeiculo(id,idVeiculo);
+
+        //remover veiculo da BD
+        proxyMicroservicoUtilizadorVeiculo.apagarVeiculo(idVeiculo);
+
+        return "redirect:/gestao/ADMIN/utilizadores/"+id+"/veiculos";
+    }
+    @GetMapping("/gestao/ADMIN/utilizadores/{id}/veiculos/adicionar")
+    String getAdicionarVeiculo(Model model, @PathVariable Long id){
+        model.addAttribute("id",id);
+
+        List<String> emails = proxyMicroservicoUtilizadorVeiculo.consultarEmails();
+        model.addAttribute("emails",emails);
+        return "adicionar-veiculo.html";
+    }
+    @PostMapping("/gestao/ADMIN/utilizadores/{id}/veiculos/criar")
+    String criaVeiculo(Model model, @PathVariable Long id,
+                                   @RequestParam String marca,
+                                   @RequestParam String modelo,
+                                   @RequestParam String email,
+                                   @RequestParam double bateria,
+                                   @RequestParam double bateriaAtual,
+                                   @RequestParam double capacidadeCarregamento){
+
+        //criar objeto e guardar
+        Veiculo veiculo = proxyMicroservicoUtilizadorVeiculo.registrar(marca,modelo,bateria,bateriaAtual,capacidadeCarregamento,id);
+        System.out.println(proxyMicroservicoUtilizadorVeiculo.adicionaVeiculo(email,veiculo));
+        //adicionar ao set do utilizador
+
+
+        model.addAttribute("id",id);
+        return "redirect:/gestao/ADMIN/utilizadores/"+id+"/veiculos";
+    }
 
     //------------------------------------------------------------------------------
 }

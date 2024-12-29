@@ -3,14 +3,13 @@ package pt.ipcb.ad.Microservico_FrontEnd_Server.proxies;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.Utilizador;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.UtilizadorDTO;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.Veiculo;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @FeignClient(value="Microservico-Utilizadores-Veiculos")
@@ -30,4 +29,34 @@ public interface ProxyMicroservicoUtilizadorVeiculo {
 
     @GetMapping("/veiculos/{id}/nome")
     public String getNome(@PathVariable Long id);
+
+    @GetMapping("/utilizadores/seguro")
+    public List<UtilizadorDTO> listarSeguro();
+
+    @GetMapping("/utilizador/seguro")
+    public UtilizadorDTO getUserSeguro(@RequestParam Long id);
+
+    @PutMapping("/utilizador/edicao")
+    public ResponseEntity<String> editaUser(@RequestParam Long id, @RequestParam String nome, @RequestParam String role);
+
+    @DeleteMapping("/utilizador/eliminar/{id}")
+    public ResponseEntity<String> eliminarUser(@PathVariable Long id);
+
+    @GetMapping("/veiculos/{id}")
+    public Optional<Veiculo> consultar(@PathVariable Long id);
+
+    @PutMapping("/utilizador/{id}/remover-veiculo/{idVeiculo}")
+    public ResponseEntity<String> removerVeiculo(@RequestParam Long id, @RequestParam Long idVeiculo);
+
+    @DeleteMapping("/veiculos/{id}/apagar")
+    public ResponseEntity<String> apagarVeiculo(@PathVariable Long id);
+
+    @GetMapping("/utilizadores/emails")
+    public List<String> consultarEmails();
+
+    @PutMapping("/veiculos")
+    public Veiculo registrar(@RequestParam String marca, @RequestParam String modelo, @RequestParam double bateria, @RequestParam double bateriaAtual, @RequestParam double capacidadeCarregamento, @RequestParam Long id);
+
+    @PutMapping("/utilizador/{email}/adiciona-veiculo")
+    public ResponseEntity<String> adicionaVeiculo(@PathVariable String email, @RequestBody Veiculo veiculo);
 }

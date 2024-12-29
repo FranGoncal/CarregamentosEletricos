@@ -12,7 +12,7 @@ import java.util.Optional;
 @FeignClient(value="Microservico-CEME-Faturacao")
 public interface ProxyCeme {
 
-    @GetMapping("/CEME")
+    @GetMapping("/CEME/listar")
     public List<CEME> listar();
 
     @GetMapping("/faturas/{emailUtilizador}")

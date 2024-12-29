@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -67,5 +68,8 @@ public class Utilizador {
     }
     public void setVehicles(Veiculo veiculo) {
         vehicles.add(veiculo);
+    }
+    public void setVeiculos(Set<Veiculo> veiculos) {
+        this.vehicles = veiculos;
     }
 }

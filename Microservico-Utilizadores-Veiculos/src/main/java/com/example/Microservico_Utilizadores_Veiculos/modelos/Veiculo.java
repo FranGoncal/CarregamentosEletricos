@@ -2,6 +2,7 @@ package com.example.Microservico_Utilizadores_Veiculos.modelos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Transactional
 public class Veiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

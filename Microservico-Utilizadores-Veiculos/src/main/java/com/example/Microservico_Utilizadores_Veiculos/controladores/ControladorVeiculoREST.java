@@ -1,6 +1,8 @@
 package com.example.Microservico_Utilizadores_Veiculos.controladores;
 
+import com.example.Microservico_Utilizadores_Veiculos.modelos.Utilizador;
 import com.example.Microservico_Utilizadores_Veiculos.modelos.Veiculo;
+import com.example.Microservico_Utilizadores_Veiculos.repositorios.UtilizadorRepositorio;
 import com.example.Microservico_Utilizadores_Veiculos.repositorios.VeiculoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,14 +19,22 @@ public class ControladorVeiculoREST {
     @Autowired
     VeiculoRepositorio veiculoRepositorio;
 
-    @PostMapping("/veiculos")
-    public Veiculo registrar(@RequestParam String marca, @RequestParam String modelo, @RequestParam Double bateria, @RequestParam Integer autonomia) {
+    @Autowired
+    UtilizadorRepositorio utilizadorRepositorio;
+
+    @PutMapping("/veiculos")
+    public Veiculo registrar(@RequestParam String marca, @RequestParam String modelo, @RequestParam double bateria, @RequestParam double bateriaAtual, @RequestParam double capacidadeCarregamento, @RequestParam Long id) {
+
+        Utilizador utilizador = utilizadorRepositorio.findById(id).get();
+
         Veiculo veiculo = new Veiculo();
 
         veiculo.setMarca(marca);
         veiculo.setModelo(modelo);
         veiculo.setBateria(bateria);
-        veiculo.setCapacidadeCarregamento(autonomia);
+        veiculo.setCapacidadeCarregamento(capacidadeCarregamento);
+        veiculo.setBateriaAtual(bateriaAtual);
+        veiculo.setUtilizador(utilizador);
 
         veiculoRepositorio.save(veiculo);
         return veiculo;
@@ -66,6 +76,12 @@ public class ControladorVeiculoREST {
         Veiculo veiculo = veiculoRepositorio.findById(id).get();
         return veiculo.getMarca()+" "+veiculo.getModelo();
     }
+    @DeleteMapping("/veiculos/{id}/apagar")
+    public ResponseEntity<String> apagarVeiculo(@PathVariable Long id) {
+        veiculoRepositorio.deleteById(id);
+        return ResponseEntity.ok("Veiculo removido com sucesso");
+    }
+
 
 
 }
