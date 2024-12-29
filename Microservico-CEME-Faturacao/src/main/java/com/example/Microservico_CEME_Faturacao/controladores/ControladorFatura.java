@@ -31,16 +31,22 @@ public class ControladorFatura {
         fatura.setDataEmitida(LocalDateTime.now());
         fatura.setSessaoId(sessionDetails.getSessionId());
         fatura.setEmailUtilizador(sessionDetails.getUserEmail());
+
+
         fatura.setConsumoEnergia(sessionDetails.getEnergyConsumed());
+
+        System.out.println(sessionDetails.getEnergyConsumed());
+        System.out.println(fatura.getConsumoEnergia());
+
         fatura.setVeiculoId(sessionDetails.getVeiculoId());
 
         double energiaConsumida = sessionDetails.getEnergyConsumed();
-        System.out.println(energiaConsumida);
         CEME ceme = cemeRepositorio.findById(sessionDetails.getIdCeme()).get();
         double precoPorKWh = ceme.getPrecoPorKWh();
 
         //TODO atualizar o resto da formula das partes que nao entendemos bem
         double custoTotal = precoPorKWh * energiaConsumida;
+        custoTotal= Math.ceil(custoTotal * 100) / 100;
 
         fatura.setCustoTotal(custoTotal);
 

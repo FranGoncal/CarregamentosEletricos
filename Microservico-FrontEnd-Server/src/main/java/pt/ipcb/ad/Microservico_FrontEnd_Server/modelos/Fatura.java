@@ -23,7 +23,7 @@ public class Fatura {
     @JoinColumn(name = "utilizador_id", nullable = false)
     private Utilizador utilizador;
     */
-    private long consumoEnergia;
+    private double consumoEnergia;
     private double custoTotal;
 
     //private String statusPagamento;
@@ -52,11 +52,11 @@ public class Fatura {
         this.sessaoId = sessaoId;
     }
 
-    public long getConsumoEnergia() {
+    public double getConsumoEnergia() {
         return consumoEnergia;
     }
 
-    public void setConsumoEnergia(long consumoEnergia) {
+    public void setConsumoEnergia(double consumoEnergia) {
         this.consumoEnergia = consumoEnergia;
     }
 
