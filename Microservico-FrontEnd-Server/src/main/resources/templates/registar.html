@@ -8,24 +8,35 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <div class="navbar-brand">Sistema de Carregamento</div>
-    </div>
+    <a href="/MICROSERVICO-FRONTEND-SERVER/">
+        <div class="container-fluid">
+            <div class="navbar-brand">Sistema de Carregamento</div>
+        </div>
+    </a>
 </nav>
 
 <div class="container mt-5">
     <h1 class="mb-4">Registar Novo Utilizador</h1>
-    <form action="/MICROSERVICO-FRONTEND-SERVER/registar" method="POST">
+    <form action="/MICROSERVICO-FRONTEND-SERVER/registar" th:object="${utilizador}" method="POST">
+
+        <div th:if="${param.email_invalid}">
+            <div class="alert alert-danger">
+                Utilizador ou Email já Registado!</div>
+        </div>
+
         <div class="mb-3">
             <label for="nome" class="form-label">Nome</label>
-            <input name="nome" type="text" class="form-control" id="nome" placeholder="Insira o seu nome" required>
+            <p class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</p>
+            <input name="name" type="text" class="form-control" id="nome" placeholder="Insira o seu nome" required>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
+            <p class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</p>
             <input name="email" type="text" class="form-control" id="email" placeholder="Insira o seu email" required>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
+            <p class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</p>
             <input name="password" type="text" class="form-control" id="password" placeholder="Insira a sua password" required>
         </div>
         <button type="submit" class="btn btn-primary">Registrar</button>

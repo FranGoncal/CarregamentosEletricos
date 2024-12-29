@@ -6,7 +6,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import pt.ipcb.ad.Microservico_FrontEnd_Server.excecoes.CredenciaisIncorretasException;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.modelos.UtilizadorDTO;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.ProxyMicroservicoUtilizadorVeiculo;
 
@@ -23,20 +25,26 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) {
+
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
 
         // Chama o microserviço para autenticar
-        UtilizadorDTO user = proxyMicroservicoUtilizadorVeiculo.autenticacao(username, password);
+        try{
+            UtilizadorDTO user = proxyMicroservicoUtilizadorVeiculo.autenticacao(username, password);
+            if (user != null) {
+                // Se a autenticação for bem-sucedida, cria um objeto de autenticação
+                User principal = new User(username, password, List.of(new SimpleGrantedAuthority(user.getRole())));
+                return new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
+            } else {
+                // Se a autenticação falhar, lança uma exceção
+                throw new BadCredentialsException("Invalid username or password");
+            }
+        }
+        catch (Exception e){
+            System.out.println("exc");
+            throw new UsernameNotFoundException("As credenciais estão incorretas!");
 
-
-        if (user != null) {
-            // Se a autenticação for bem-sucedida, cria um objeto de autenticação
-            User principal = new User(username, password, List.of(new SimpleGrantedAuthority(user.getRole())));
-            return new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
-        } else {
-            // Se a autenticação falhar, lança uma exceção
-            throw new BadCredentialsException("Invalid username or password");
         }
     }
 

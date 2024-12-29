@@ -2,6 +2,9 @@ package pt.ipcb.ad.Microservico_FrontEnd_Server.modelos;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 //import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +18,13 @@ import java.util.Set;
 public class Utilizador {
 
     private Long id;
+    @NotBlank(message = "O nome não pode estar vazio!")
     private String name;
+    @Email
+    @NotBlank(message = "O email não pode estar vazio!")
     private String email;
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[-#$.%&*])(?=.*[a-zA-Z]).{8,}$",
+            message = "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um dos seguintes caracteres especiais: $ % # * & - .")
     private String password;
     //@Transient
     private String role;

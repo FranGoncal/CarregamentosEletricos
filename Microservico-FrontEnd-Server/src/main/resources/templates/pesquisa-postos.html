@@ -40,6 +40,9 @@
     </form>
 
     <div class="mt-4">
+        <div th:if="${errorMessage}">
+            <p><strong> <b th:text="${errorMessage}"></b></strong></p>
+        </div>
         <p>Digite o nome ou parte do nome do posto de carregamento para iniciar a busca.</p>
     </div>
 </div>

@@ -17,6 +17,18 @@
 
 <div class="container mt-5">
     <h1 class="mb-4">Login</h1>
+    <!-- Check for logout -->
+    <div th:if="${param.logout}">
+        <div class="alert alert-success col-xs-offset-1 col-xs-10">
+            You have been logged out.
+        </div>
+    </div>
+    <!-- Check for login error -->
+    <div th:if="${param.error}">
+        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+            Invalid username and password.
+        </div>
+    </div>
     <form action="/MICROSERVICO-FRONTEND-SERVER/" method="POST">
         <!-- Nome de Usuário -->
         <div class="mb-3">
@@ -27,6 +39,12 @@
         <div class="mb-3">
             <label for="password" class="form-label">Palavra-passe</label>
             <input name="password" type="password" class="form-control" id="password" placeholder="Insira a sua senha">
+        </div>
+
+
+
+        <div th:if="${errorMessage}">
+            <p><strong> <b th:text="${errorMessage}"></b></strong></p>
         </div>
         <!-- Botão de Login -->
         <button type="submit" class="btn btn-primary">Entrar</button>
