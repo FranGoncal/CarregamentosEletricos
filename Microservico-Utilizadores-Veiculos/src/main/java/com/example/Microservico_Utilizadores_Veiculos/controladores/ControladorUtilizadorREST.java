@@ -8,6 +8,7 @@ import com.example.Microservico_Utilizadores_Veiculos.repositorios.VeiculoReposi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -25,13 +26,16 @@ public class ControladorUtilizadorREST {
     @Autowired
     VeiculoRepositorio veiculoRepositorio;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @PostMapping("/utilizadores")
     public ResponseEntity<String> registrar(@RequestParam String email, @RequestParam String nome, @RequestParam String password, @RequestParam String role) {
         Utilizador utilizador = new Utilizador();
 
         utilizador.setEmail(email);
         utilizador.setName(nome);
-        utilizador.setPassword(password);
+        utilizador.setPassword(passwordEncoder.encode(password));
         utilizador.setRole(role);
 
         System.out.println(role);
@@ -73,8 +77,10 @@ public class ControladorUtilizadorREST {
         Utilizador user = utilizadorRepositorio.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Credenciais incorretas!"));
 
+        System.out.println(user.getPassword());
+        System.out.println(passwordEncoder.encode(password));
         //confirmar password
-        if (!user.getPassword().equals(password)) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Credenciais incorretas!");
         }
         UtilizadorDTO userDTO = new UtilizadorDTO();

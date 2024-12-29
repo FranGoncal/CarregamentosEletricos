@@ -9,6 +9,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class MicroservicoUtilizadoresVeiculosApplication implements ApplicationRunner{
@@ -18,6 +19,9 @@ public class MicroservicoUtilizadoresVeiculosApplication implements ApplicationR
 
 	@Autowired
 	VeiculoRepositorio veiculoRepositorio;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MicroservicoUtilizadoresVeiculosApplication.class, args);
@@ -32,22 +36,22 @@ public class MicroservicoUtilizadoresVeiculosApplication implements ApplicationR
 		u1.setRole("ROLE_ADMIN");
 		u1.setName("aaa");
 		u1.setEmail("a@a.a");
-		u1.setPassword("a");
+		u1.setPassword(passwordEncoder.encode("a"));
 
 		u2.setRole("ROLE_STANDARD");
 		u2.setName("b");
 		u2.setEmail("b@b.b");
-		u2.setPassword("b");
+		u2.setPassword(passwordEncoder.encode("b"));
 
 		u3.setRole("ROLE_CEME");
 		u3.setName("c");
 		u3.setEmail("c@c.c");
-		u3.setPassword("c");
+		u3.setPassword(passwordEncoder.encode("c"));
 
 		u4.setRole("ROLE_OPC");
 		u4.setName("o");
 		u4.setEmail("o@o.o");
-		u4.setPassword("o");
+		u4.setPassword(passwordEncoder.encode("o"));
 
 		Veiculo v1 = new Veiculo();
 		v1.setCapacidadeCarregamento(100);

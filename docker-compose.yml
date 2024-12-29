@@ -1,0 +1,93 @@
+version: '3.7'
+
+services:
+  eureka-server:
+    image: naming-service
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - minha_rede
+    restart: always
+
+  frontend:
+    image: microservico-frontend
+    container_name: microservico-frontend
+    ports:
+      - "80:80"
+    networks:
+      - minha_rede
+    environment:
+      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=80"
+    depends_on:
+      - eureka-server
+    restart: always
+
+  api-gateway:
+    image: api-gateway
+    container_name: api-gateway
+    ports:
+      - "8755:8755"
+    networks:
+      - minha_rede
+    environment:
+      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8755"
+    depends_on:
+      - eureka-server
+    restart: always
+
+  sessoes-carregamento:
+    image: microservico-sessoes-carregamento
+    container_name: microservico-sessoes-carregamento
+    ports:
+      - "8040:8040"
+    networks:
+      - minha_rede
+    environment:
+      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8040"
+    depends_on:
+      - eureka-server
+    restart: always
+
+  utilizadores-veiculos:
+    image: microservico-utilizadores-veiculos
+    container_name: microservico-utilizadores-veiculos
+    ports:
+      - "8035:8035"
+    networks:
+      - minha_rede
+    environment:
+      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8035"
+    depends_on:
+      - eureka-server
+    restart: always
+
+  ceme-faturacao:
+    image: microservico-ceme-faturacao
+    container_name: microservico-ceme-faturacao
+    ports:
+      - "8050:8050"
+    networks:
+      - minha_rede
+    environment:
+      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8050"
+    depends_on:
+      - eureka-server
+    restart: always
+
+  opc:
+    image: microservico-opc
+    container_name: microservico-opc
+    ports:
+      - "8020:8020"
+    networks:
+      - minha_rede
+    environment:
+      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8020"
+    depends_on:
+      - eureka-server
+    restart: always
+
+networks:
+  minha_rede:
+    driver: bridge
