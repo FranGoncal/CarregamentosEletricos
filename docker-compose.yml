@@ -17,8 +17,7 @@ services:
       - "80:80"
     networks:
       - minha_rede
-    environment:
-      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=80"
+    command: sh -c "java $JAVA_OPTS -jar \Microservico-FrontEnd-Server\target\Microservico-FrontEnd-Server-0.0.1-SNAPSHOT.jar"
     depends_on:
       - eureka-server
     restart: always
@@ -30,8 +29,7 @@ services:
       - "8755:8755"
     networks:
       - minha_rede
-    environment:
-      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8755"
+    command: sh -c "java $JAVA_OPTS -jar \API-Cloud-Gateway\target\API-Cloud-Gateway-0.0.1-SNAPSHOT.jar"
     depends_on:
       - eureka-server
     restart: always
@@ -43,8 +41,7 @@ services:
       - "8040:8040"
     networks:
       - minha_rede
-    environment:
-      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8040"
+    command: sh -c "java $JAVA_OPTS -jar \Microservico-Simulacao-Sessoes-Carregamento\target\Microservico-Simulacao-Sessoes-Carregamento-0.0.1-SNAPSHOT.jar"
     depends_on:
       - eureka-server
     restart: always
@@ -56,8 +53,7 @@ services:
       - "8030:8030"
     networks:
       - minha_rede
-    environment:
-      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8030"
+    command: sh -c "java $JAVA_OPTS -jar \Microservico-Utilizadores-Veiculos\target\Microservico-Utilizadores-Veiculos-0.0.1-SNAPSHOT.jar"
     depends_on:
       - eureka-server
     restart: always
@@ -69,8 +65,7 @@ services:
       - "8050:8050"
     networks:
       - minha_rede
-    environment:
-      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8050"
+    command: sh -c "java $JAVA_OPTS -jar \Microservico-CEME-Faturacao\target\Microservico-CEME-Faturacao-0.0.1-SNAPSHOT.jar"
     depends_on:
       - eureka-server
     restart: always
@@ -82,8 +77,7 @@ services:
       - "8020:8020"
     networks:
       - minha_rede
-    environment:
-      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8020"
+    command: sh -c "java $JAVA_OPTS -jar \OPC\target\OPC-0.0.1-SNAPSHOT.jar"
     depends_on:
       - eureka-server
     restart: always

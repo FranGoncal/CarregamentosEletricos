@@ -89,6 +89,7 @@ public class ControladorUtilizadorREST {
         userDTO.setName(user.getName());
         userDTO.setRole(user.getRole());
         userDTO.setId(user.getId());
+
         userDTO.setVehicles(user.getVehicles());
 
         return userDTO;
@@ -103,7 +104,9 @@ public class ControladorUtilizadorREST {
     @GetMapping("/utilizadores/veiculos")
     public Set<Veiculo> consultarVeiculos(@RequestParam String email) {
         Optional<Utilizador> user = utilizadorRepositorio.findByEmail(email);
-        return user.get().getVehicles();
+        Set<Veiculo> veiculos = user.get().getVehicles();
+        System.out.println(veiculos.size());
+        return veiculos;
     }
     @GetMapping("/utilizadores/emails")
     public List<String> consultarEmails() {
@@ -131,6 +134,7 @@ public class ControladorUtilizadorREST {
         userDTO.setName(user.getName());
         userDTO.setRole(user.getRole());
         userDTO.setId(user.getId());
+
         userDTO.setVehicles(user.getVehicles());
 
         return userDTO;

@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+//@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

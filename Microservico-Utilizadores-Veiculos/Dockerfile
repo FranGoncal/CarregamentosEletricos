@@ -7,7 +7,10 @@ WORKDIR /app
 COPY target/Microservico-Utilizadores-Veiculos-0.0.1-SNAPSHOT.jar /app/Microservico-Utilizadores-Veiculos.jar
 
 # Etapa 3: Expor a porta que o app usará
-EXPOSE 8020
+EXPOSE 8030
 
-# Etapa 4: Definir o comando para rodar o app
-ENTRYPOINT ["java", "-jar", "Microservico-Utilizadores-Veiculos.jar"]
+# Etapa 4: Definir as variáveis de ambiente (JAVA_OPTS por exemplo)
+ENV JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8030"
+
+# Etapa 5: Definir o comando para rodar o app com a variável JAVA_OPTS
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar Microservico-Utilizadores-Veiculos.jar"]

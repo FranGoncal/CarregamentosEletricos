@@ -14,6 +14,7 @@ import pt.ipcb.ad.Microservico_FrontEnd_Server.proxies.*;
 import org.springframework.security.core.Authentication;
 import pt.ipcb.ad.Microservico_FrontEnd_Server.services.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -375,8 +376,11 @@ public class ControladorFrontEndMVC {
         @GetMapping("/gestao/ADMIN/utilizadores/{id}/veiculos")
         String getUserVeiculos(Model model, @PathVariable Long id){
             UtilizadorDTO utilizadorDTO = proxyMicroservicoUtilizadorVeiculo.getUserSeguro(id);
+            String email = utilizadorDTO.getEmail();
 
-            Set<Veiculo> veiculos = utilizadorDTO.getVehicles();
+            Set<Veiculo> veiculos = proxyMicroservicoUtilizadorVeiculo.consultarVeiculos(email);
+            System.out.println(veiculos.size());
+
             model.addAttribute("veiculos",veiculos);
             model.addAttribute("id",id);
 

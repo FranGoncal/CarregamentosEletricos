@@ -70,4 +70,6 @@ public interface ProxyMicroservicoUtilizadorVeiculo {
 
     @GetMapping("/utilizadores/idUser")
     public Long getUserId(@RequestParam String email);
+
+
 }
