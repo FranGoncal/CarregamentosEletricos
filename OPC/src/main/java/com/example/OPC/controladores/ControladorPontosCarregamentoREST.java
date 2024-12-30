@@ -33,6 +33,7 @@ public class ControladorPontosCarregamentoREST {
 
         PontoCarregamentoDTO pontoCarregamentoDTO = new PontoCarregamentoDTO();
         pontoCarregamentoDTO.setEstado(ponto.get().getEstado());
+        pontoCarregamentoDTO.setTaxaOPC(ponto.get().getTaxaOPC());
         pontoCarregamentoDTO.setMaxCapacity(ponto.get().getMaxCapacity());
         pontoCarregamentoDTO.setLocal(ponto.get().getLocal());
         pontoCarregamentoDTO.setId(ponto.get().getId());
@@ -59,6 +60,7 @@ public class ControladorPontosCarregamentoREST {
         for(PontoCarregamento ponto : pontosCarregamentos) {
             PontoCarregamentoDTO pontoCarregamentoDTO = new PontoCarregamentoDTO();
             pontoCarregamentoDTO.setEstado(ponto.getEstado());
+            pontoCarregamentoDTO.setTaxaOPC(ponto.getTaxaOPC());
             pontoCarregamentoDTO.setMaxCapacity(ponto.getMaxCapacity());
             pontoCarregamentoDTO.setLocal(ponto.getLocal());
             pontoCarregamentoDTO.setId(ponto.getId());
@@ -73,7 +75,10 @@ public class ControladorPontosCarregamentoREST {
     public Integer atualizar(@PathVariable Long id, @RequestParam String status) {
         return pontoCarregamentoRepositorio.updateStatusById(id, status);
     }
-
+    @GetMapping("/ponto/Taxa/{id}")
+    public double getTaxa(@PathVariable Long id){
+        return pontoCarregamentoRepositorio.findById(id).get().getTaxaOPC();
+    }
     @GetMapping("/opc")
     public List<PontoCarregamento> getPontosProrios(@RequestParam String ownerEmail){
         return pontoCarregamentoRepositorio.findByOwnerEmail(ownerEmail);
@@ -83,24 +88,26 @@ public class ControladorPontosCarregamentoREST {
         return pontoCarregamentoRepositorio.findById(id);
     }
     @PutMapping("/opc/ponto/editar")
-    public PontoCarregamento editaPonto(@RequestParam Long id, @RequestParam String local, @RequestParam String estado, @RequestParam double capacidade)
+    public PontoCarregamento editaPonto(@RequestParam Long id, @RequestParam String local, @RequestParam String estado, @RequestParam double capacidade, @RequestParam double taxaOPC)
     {
         PontoCarregamento pontoCarregamento = pontoCarregamentoRepositorio.getById(id);
 
         pontoCarregamento.setMaxCapacity(capacidade);
         pontoCarregamento.setLocal(local);
         pontoCarregamento.setEstado(estado);
+        pontoCarregamento.setTaxaOPC(taxaOPC);
 
         return pontoCarregamentoRepositorio.save(pontoCarregamento);
     }
     @PostMapping("/opc/ponto/criar")
-    public PontoCarregamento criarPonto(@RequestParam String email, @RequestParam String local, @RequestParam String estado, @RequestParam double capacidade){
+    public PontoCarregamento criarPonto(@RequestParam String email, @RequestParam String local, @RequestParam String estado, @RequestParam double capacidade, @RequestParam double taxaOPC){
         PontoCarregamento pontoCarregamento = new PontoCarregamento();
 
         pontoCarregamento.setMaxCapacity(capacidade);
         pontoCarregamento.setLocal(local);
         pontoCarregamento.setEstado(estado);
         pontoCarregamento.setOwnerEmail(email);
+        pontoCarregamento.setTaxaOPC(taxaOPC);
 
         return pontoCarregamentoRepositorio.save(pontoCarregamento);
     }

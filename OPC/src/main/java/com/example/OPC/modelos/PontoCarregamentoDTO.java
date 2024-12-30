@@ -12,7 +12,15 @@ public class PontoCarregamentoDTO {
     private String local;
     private double maxCapacity; //capacidade de carregamento maxima -> kWh
     private String estado;
+    private double taxaOPC; //taxa aplicada na fatura pelo uso do posto
 
+
+    public double getTaxaOPC() {
+        return taxaOPC;
+    }
+    public void setTaxaOPC(double taxaOPC) {
+        this.taxaOPC = taxaOPC;
+    }
     public Long getId() {
         return id;
     }

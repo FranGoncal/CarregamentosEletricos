@@ -50,6 +50,10 @@
             <input type="number" class="form-control" id="maxCapacity" name="maxCapacity" step="0.01" th:value="${ponto.maxCapacity}" required>
         </div>
         <div class="mb-3">
+            <label for="taxaOPC" class="form-label">TaxaOPC €</label>
+            <input type="number" class="form-control" id="taxaOPC" name="taxaOPC" step="0.01" th:value="${ponto.taxaOPC}" required>
+        </div>
+        <div class="mb-3">
             <label for="estado" class="form-label">Estado do Ponto</label>
             <select class="form-select" id="estado" name="estado" required>
                 <option th:value="disponivel" th:selected="${ponto.estado == 'disponivel'}">Disponivel</option>

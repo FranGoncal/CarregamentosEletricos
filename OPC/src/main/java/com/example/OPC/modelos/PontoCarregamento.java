@@ -21,7 +21,15 @@ public class PontoCarregamento {
     private String ownerEmail; //email da pessoa que faz a gestao deste ponto
     private double maxCapacity; //capacidade de carregamento maxima -> kWh
     private String estado;
+    private double taxaOPC; //taxa aplicada na fatura pelo uso do posto
 
+
+    public double getTaxaOPC() {
+        return taxaOPC;
+    }
+    public void setTaxaOPC(double taxaOPC) {
+        this.taxaOPC = taxaOPC;
+    }
     public String getOwnerEmail() {
         return ownerEmail;
     }

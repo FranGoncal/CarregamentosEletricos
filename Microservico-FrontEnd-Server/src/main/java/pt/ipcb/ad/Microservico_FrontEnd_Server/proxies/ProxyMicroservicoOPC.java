@@ -28,11 +28,10 @@ public interface ProxyMicroservicoOPC {
     public Optional<PontoCarregamento> getPontoProrio(@RequestParam Long id);
 
     @PutMapping("/opc/ponto/editar")
-    public PontoCarregamento editaPonto(@RequestParam Long id, @RequestParam String local, @RequestParam String estado, @RequestParam double capacidade);
+    public PontoCarregamento editaPonto(@RequestParam Long id, @RequestParam String local, @RequestParam String estado, @RequestParam double capacidade, @RequestParam double taxaOPC);
 
     @PostMapping("/opc/ponto/criar")
-    public PontoCarregamento criarPonto(@RequestParam String email, @RequestParam String local, @RequestParam String estado, @RequestParam double capacidade);
-
+    public PontoCarregamento criarPonto(@RequestParam String email, @RequestParam String local, @RequestParam String estado, @RequestParam double capacidade, @RequestParam double taxaOPC);
 
     @DeleteMapping("/opc/ponto/eliminar")
     public ResponseEntity<String> eliminarPonto(@RequestParam Long id);

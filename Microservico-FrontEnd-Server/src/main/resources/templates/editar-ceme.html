@@ -48,6 +48,10 @@
             <label for="precoPorKWh" class="form-label">Preço por kWh</label>
             <input type="number" class="form-control" id="precoPorKWh" name="precoPorKWh" step="0.01" th:value="${ceme.precoPorKWh}" required>
         </div>
+        <div class="mb-3">
+            <label for="taxaCEME" class="form-label">Taxa de uso</label>
+            <input type="text" class="form-control" id="taxaCEME" name="taxaCEME" th:value="${ceme.taxaCEME}" required>
+        </div>
 
         <button type="submit" class="btn btn-primary">Salvar Alterações</button>
 

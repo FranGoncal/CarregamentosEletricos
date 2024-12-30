@@ -26,16 +26,19 @@ public class MicroservicoCemeFaturacaoApplication implements ApplicationRunner {
 		ceme1.setName("EDP");
 		ceme1.setOwnerEmail("a@a.a");
 		ceme1.setPrecoPorKWh(0.20);
+		ceme1.setTaxaCEME(0.5);
 
 		CEME ceme2 = new CEME();
 		ceme2.setName("Fornecedor X");
 		ceme2.setOwnerEmail("a@a.a");
 		ceme2.setPrecoPorKWh(0.22);
+		ceme2.setTaxaCEME(0.6);
 
 		CEME ceme3 = new CEME();
 		ceme3.setName("Elon Musk");
 		ceme3.setOwnerEmail("c@c.c");
 		ceme3.setPrecoPorKWh(0.30);
+		ceme3.setTaxaCEME(0.7);
 
 		cemeRepositorio.save(ceme1);
 		cemeRepositorio.save(ceme2);

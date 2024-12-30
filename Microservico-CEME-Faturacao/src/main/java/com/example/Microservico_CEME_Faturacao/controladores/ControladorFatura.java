@@ -4,6 +4,7 @@ package com.example.Microservico_CEME_Faturacao.controladores;
 import com.example.Microservico_CEME_Faturacao.modelos.CEME;
 import com.example.Microservico_CEME_Faturacao.modelos.Fatura;
 import com.example.Microservico_CEME_Faturacao.modelos.SessionDetails;
+import com.example.Microservico_CEME_Faturacao.proxies.ProxyPonto;
 import com.example.Microservico_CEME_Faturacao.repositorios.CEMERepositorio;
 import com.example.Microservico_CEME_Faturacao.repositorios.FaturaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,12 @@ public class ControladorFatura {
     @Autowired
     CEMERepositorio cemeRepositorio;
 
+    @Autowired
+    ProxyPonto proxyPonto;
+
+    private final double TAR_FIXA = 0.95;
+    private final double IVA = 1.23;
+
     @PostMapping("/CEME-faturacao")
     public Fatura criar(@RequestBody SessionDetails sessionDetails) {
         Fatura fatura = new Fatura();
@@ -31,22 +38,22 @@ public class ControladorFatura {
         fatura.setDataEmitida(LocalDateTime.now());
         fatura.setSessaoId(sessionDetails.getSessionId());
         fatura.setEmailUtilizador(sessionDetails.getUserEmail());
-
-
         fatura.setConsumoEnergia(sessionDetails.getEnergyConsumed());
-
-        System.out.println(sessionDetails.getEnergyConsumed());
-        System.out.println(fatura.getConsumoEnergia());
-
         fatura.setVeiculoId(sessionDetails.getVeiculoId());
 
         double energiaConsumida = sessionDetails.getEnergyConsumed();
         CEME ceme = cemeRepositorio.findById(sessionDetails.getIdCeme()).get();
         double precoPorKWh = ceme.getPrecoPorKWh();
 
-        //TODO atualizar o resto da formula das partes que nao entendemos bem
-        double custoTotal = precoPorKWh * energiaConsumida;
-        custoTotal= Math.ceil(custoTotal * 100) / 100;
+        Long idPonto = sessionDetails.getPostoId();
+        double taxaPonto = proxyPonto.getTaxa(idPonto);
+
+        double taxaCEME = cemeRepositorio.findById(sessionDetails.getIdCeme()).get().getTaxaCEME();
+
+        double custoTotal = precoPorKWh * energiaConsumida;//custo do preco da energia
+        custoTotal= ((Math.ceil(custoTotal * 100) / 100) + taxaPonto + taxaCEME + TAR_FIXA ) * IVA;
+
+        custoTotal = (Math.ceil(custoTotal * 100) / 100);
 
         fatura.setCustoTotal(custoTotal);
 

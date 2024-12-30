@@ -252,14 +252,13 @@ public class ControladorFrontEndMVC {
             PontoCarregamento ponto = proxyMicroservicoOPC.getPontoProrio(id).get();
             model.addAttribute("ponto",ponto);
 
-            System.out.println(ponto.getOwnerEmail());
             return "editar-ponto.html";
         }
         @PostMapping("/gestao/OPC/editar")
-        String editarPonto(Model model, @RequestParam Long id, @RequestParam String local, @RequestParam String estado ,@RequestParam double maxCapacity){
+        String editarPonto(Model model, @RequestParam Long id, @RequestParam String local, @RequestParam String estado ,@RequestParam double maxCapacity, @RequestParam double taxaOPC){
 
             //editar ponto
-            proxyMicroservicoOPC.editaPonto(id, local, estado ,maxCapacity);
+            proxyMicroservicoOPC.editaPonto(id, local, estado ,maxCapacity, taxaOPC);
 
             //obter o ponto
             PontoCarregamento ponto1 = proxyMicroservicoOPC.getPontoProrio(id).get();
@@ -268,10 +267,10 @@ public class ControladorFrontEndMVC {
             return "editar-ponto.html";
         }
         @PostMapping("/gestao/OPC/adicionar-ponto")
-        String adicionarPonto(@RequestParam String local, @RequestParam String estado ,@RequestParam double maxCapacity){
+        String adicionarPonto(@RequestParam String local, @RequestParam String estado ,@RequestParam double maxCapacity, @RequestParam double taxaOPC){
 
             String email = userService.getAuthenticatedUsername();
-            proxyMicroservicoOPC.criarPonto(email,local,estado,maxCapacity);
+            proxyMicroservicoOPC.criarPonto(email,local,estado,maxCapacity,taxaOPC);
 
             return "redirect:/gestao/OPC";
         }
@@ -296,10 +295,10 @@ public class ControladorFrontEndMVC {
             return "criar-CEME.html";
         }
         @PostMapping("/gestao/CEME/criar")
-        String criarCeme(@RequestParam String fornecedor, @RequestParam double precoPorKWH){
+        String criarCeme(@RequestParam String fornecedor, @RequestParam double precoPorKWH, @RequestParam double taxaCEME){
 
             String email = userService.getAuthenticatedUsername();
-            proxyCeme.criarCeme(email,fornecedor,precoPorKWH);
+            proxyCeme.criarCeme(email,fornecedor,precoPorKWH, taxaCEME);
 
             return "redirect:/gestao/CEME";
         }
@@ -318,10 +317,10 @@ public class ControladorFrontEndMVC {
             return "editar-ceme.html";
         }
         @PostMapping("/gestao/CEME/editar")
-        String editarCeme(Model model, @RequestParam Long id, @RequestParam String name, @RequestParam double precoPorKWh){
+        String editarCeme(Model model, @RequestParam Long id, @RequestParam String name, @RequestParam double precoPorKWh, @RequestParam double taxaCEME){
 
             //editar ponto
-            proxyCeme.editaCeme(id, name ,precoPorKWh);
+            proxyCeme.editaCeme(id, name ,precoPorKWh, taxaCEME);
 
             //obter o ponto
             CEME ceme1 = proxyCeme.getCeme(id);

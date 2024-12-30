@@ -28,16 +28,19 @@ public class OpcGestaoDePontosApplication implements ApplicationRunner {
 		pontoCarregamento1.setStatus("disponivel");
 		pontoCarregamento1.setOwnerEmail("a@a.a");
 		pontoCarregamento1.setLocal("Carapalha");
+		pontoCarregamento1.setTaxaOPC(0.4);
 
 		pontoCarregamento2.setMaxCapacity(250);
 		pontoCarregamento2.setStatus("disponivel");
 		pontoCarregamento2.setOwnerEmail("a@a.a");
 		pontoCarregamento2.setLocal("Carapalha");
+		pontoCarregamento2.setTaxaOPC(0.7);
 
 		pontoCarregamento3.setMaxCapacity(100);
 		pontoCarregamento3.setStatus("disponivel");
 		pontoCarregamento3.setOwnerEmail("o@o.o");
 		pontoCarregamento3.setLocal("Carvalha");
+		pontoCarregamento3.setTaxaOPC(0.6);
 
 		pontoCarregamentoRepositorio.save(pontoCarregamento1);
 		pontoCarregamentoRepositorio.save(pontoCarregamento2);

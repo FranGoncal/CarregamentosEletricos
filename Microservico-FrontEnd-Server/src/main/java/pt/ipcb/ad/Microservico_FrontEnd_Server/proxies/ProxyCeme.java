@@ -31,10 +31,10 @@ public interface ProxyCeme {
     public CEME getCeme(@RequestParam Long id);
 
     @PutMapping("/CEME/editar")
-    public CEME editaCeme(@RequestParam Long id,@RequestParam String name ,@RequestParam double precoPorKWh);
+    public CEME editaCeme(@RequestParam Long id,@RequestParam String name ,@RequestParam double precoPorKWh, @RequestParam double taxaCEME);
 
     @PostMapping("/CEME/criar")
-    public CEME criarCeme(@RequestParam String email,@RequestParam String fornecedor,@RequestParam double precoPorKWH);
+    public CEME criarCeme(@RequestParam String email,@RequestParam String fornecedor,@RequestParam double precoPorKWH, @RequestParam double taxaCEME);
 
     @DeleteMapping("CEME/eliminar")
     public ResponseEntity<String> eliminarCeme(@RequestParam Long id);

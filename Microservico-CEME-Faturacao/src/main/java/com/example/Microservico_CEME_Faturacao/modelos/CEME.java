@@ -17,7 +17,16 @@ public class CEME {
     private String name;
     private String ownerEmail;
     private Double precoPorKWh;
+    private double taxaCEME;
 
+
+    public double getTaxaCEME() {
+        return taxaCEME;
+    }
+
+    public void setTaxaCEME(double taxaCEME) {
+        this.taxaCEME = taxaCEME;
+    }
 
     public String getOwnerEmail() {
         return ownerEmail;

@@ -16,13 +16,17 @@ public class ControladorCEME {
     @Autowired
     CEMERepositorio cemeRepositorio;
 
-    @GetMapping("/CEME/listar")//TODO verificar se a adicao de /listar nao estragou nada
+    @GetMapping("/CEME/listar")
     public List<CEME> listar() {
         return cemeRepositorio.findAll();
     }
     @GetMapping("/CEME/{id}")
     public double getPreco(@PathVariable Long id) {
         return cemeRepositorio.findById(id).get().getPrecoPorKWh();
+    }
+    @GetMapping("/CEME/{id}/taxa")
+    public double getTaxa(@PathVariable Long id) {
+        return cemeRepositorio.findById(id).get().getTaxaCEME();
     }
     @GetMapping("/CEME/{id}/nome")
     public String getNome(@PathVariable Long id) {
@@ -38,18 +42,20 @@ public class ControladorCEME {
     }
 
     @PutMapping("/CEME/editar")
-    public CEME editaCeme(@RequestParam Long id,@RequestParam String name ,@RequestParam double precoPorKWh){
+    public CEME editaCeme(@RequestParam Long id,@RequestParam String name ,@RequestParam double precoPorKWh, @RequestParam double taxaCEME){
         CEME ceme = cemeRepositorio.findById(id).get();
         ceme.setName(name);
         ceme.setPrecoPorKWh(precoPorKWh);
+        ceme.setTaxaCEME(taxaCEME);
         return cemeRepositorio.save(ceme);
     }
 
     @PostMapping("/CEME/criar")
-    public CEME criarCeme(@RequestParam String email,@RequestParam String fornecedor,@RequestParam double precoPorKWH){
+    public CEME criarCeme(@RequestParam String email,@RequestParam String fornecedor,@RequestParam double precoPorKWH, @RequestParam double taxaCEME){
         CEME ceme = new CEME();
         ceme.setOwnerEmail(email);
         ceme.setName(fornecedor);
+        ceme.setTaxaCEME(taxaCEME);
         ceme.setPrecoPorKWh(precoPorKWH);
 
         return cemeRepositorio.save(ceme);

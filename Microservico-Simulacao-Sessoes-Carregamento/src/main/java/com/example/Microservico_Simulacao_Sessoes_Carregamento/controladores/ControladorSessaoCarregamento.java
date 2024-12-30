@@ -37,11 +37,6 @@ public class ControladorSessaoCarregamento {
 
         double precoCeme = proxyCemeFaturacao.getPreco(cemeId);
 
-        // verificar se posto ta DISPONIVEL
-        //if( !proxyOPC.consultarEstado(idPosto).equals("disponivel") )
-            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Posto Indisponivel");
-            //TODO Throw exception
-
         //ocupar o posto
         proxyOPC.atualizar(idPosto,"EM_USO");
 
