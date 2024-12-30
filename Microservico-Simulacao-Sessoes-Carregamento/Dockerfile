@@ -11,6 +11,6 @@ EXPOSE 8040
 
 # Etapa 4: Definir as variáveis de ambiente (JAVA_OPTS por exemplo)
 ENV JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8040"
-
+ENV SPRING_DATASOURCE_URL="jdbc:mysql://mysql-db:3306/db"
 # Etapa 5: Definir o comando para rodar o app com a variável JAVA_OPTS
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar Microservico-Simulacao-Sessoes-Carregamento.jar"]
