@@ -53,11 +53,11 @@ services:
     image: microservico-utilizadores-veiculos
     container_name: microservico-utilizadores-veiculos
     ports:
-      - "8035:8035"
+      - "8030:8030"
     networks:
       - minha_rede
     environment:
-      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8035"
+      - JAVA_OPTS="-DEUREKA_SERVER_URL=http://eureka-server:8761/eureka -Dporta=8030"
     depends_on:
       - eureka-server
     restart: always

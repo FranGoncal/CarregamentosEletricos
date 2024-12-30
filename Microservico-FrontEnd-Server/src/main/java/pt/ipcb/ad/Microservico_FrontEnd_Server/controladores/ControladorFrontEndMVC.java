@@ -132,7 +132,7 @@ public class ControladorFrontEndMVC {
 
 
         @GetMapping("/postos/{id}/simulacao")
-        String startSimulacao(@PathVariable Long id, @RequestParam Long carroId, @RequestParam Long cemeId, Model model){
+        String startSimulacao(@PathVariable Long id, @RequestParam Long carroId, @RequestParam Long cemeId, @RequestParam Long cargaMaxima,Model model){
 
             //ver se o posto esta disponivel
             if(!proxyMicroservicoOPC.consultarEstado(id).equals("disponivel")){
@@ -142,7 +142,7 @@ public class ControladorFrontEndMVC {
             //TODO ver se o carro é do user
 
             //criar simulacao
-            Long idSessao = proxySimulacaoSessaoCarregamento.registrar(id,carroId,userService.getAuthenticatedUsername(), cemeId);
+            Long idSessao = proxySimulacaoSessaoCarregamento.registrar(id,carroId,userService.getAuthenticatedUsername(), cemeId, cargaMaxima);
 
 
             //apresentar simulacao

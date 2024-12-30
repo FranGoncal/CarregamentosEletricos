@@ -14,8 +14,8 @@ import java.util.Optional;
 @FeignClient(value="Microservico-Simulacao-Sessoes-Carregamento")
 public interface ProxySimulacaoSessaoCarregamento {
 
-    @PostMapping("/Simulacao/{idPosto}/{idVeiculo}/{emailUtilizador}/{cemeId}")
-    public Long registrar(@PathVariable Long idPosto, @PathVariable Long idVeiculo, @PathVariable String emailUtilizador, @PathVariable Long cemeId);
+    @PostMapping("/Simulacao/{idPosto}/{idVeiculo}/{emailUtilizador}/{cemeId}/{cargaMaxima}")
+    public Long registrar(@PathVariable Long idPosto, @PathVariable Long idVeiculo, @PathVariable String emailUtilizador, @PathVariable Long cemeId, @PathVariable Long cargaMaxima);
 
     @GetMapping("/Simulacao/{id}")
     public Optional<SessaoCarregamento> consultar(@PathVariable Long id);

@@ -32,8 +32,8 @@ public class ControladorSessaoCarregamento {
     @Autowired
     ProxyOPC proxyOPC;
 
-    @PostMapping("/Simulacao/{idPosto}/{idVeiculo}/{emailUtilizador}/{cemeId}")
-    public Long registrar(@PathVariable Long idPosto, @PathVariable Long idVeiculo, @PathVariable String emailUtilizador, @PathVariable Long cemeId) {
+    @PostMapping("/Simulacao/{idPosto}/{idVeiculo}/{emailUtilizador}/{cemeId}/{cargaMaxima}")
+    public Long registrar(@PathVariable Long idPosto, @PathVariable Long idVeiculo, @PathVariable String emailUtilizador, @PathVariable Long cemeId, @PathVariable Long cargaMaxima) {
 
         double precoCeme = proxyCemeFaturacao.getPreco(cemeId);
 
@@ -61,6 +61,7 @@ public class ControladorSessaoCarregamento {
         sessaoCarregamento.setIdPosto(idPosto);
         sessaoCarregamento.setTerminada(false);
         sessaoCarregamento.setPrecoCeme(precoCeme);
+        sessaoCarregamento.setCargaMaxima(cargaMaxima);
         sessaoCarregamento.setIdVeiculo(idVeiculo);
         sessaoCarregamento.setIdCeme(cemeId);
         sessaoCarregamento.setEmailUtilizador(emailUtilizador);
@@ -190,10 +191,11 @@ public class ControladorSessaoCarregamento {
 
         double bateriaAposCarregamento = bateriaAtual + energiaCarregada;
 
-        if (bateriaAposCarregamento > bateriaTotal){
+        if (bateriaAposCarregamento > sessaoCarregamento.get().getCargaMaxima()*bateriaTotal/100){
             //atualizar bateria
             //proxyUtilizadoresVeiculos.atualizaBateria(idCarro,bateriaTotal);
             //terminar a sessao
+            System.out.println(bateriaAposCarregamento);
             atualizar(id);
         }
         //proxyUtilizadoresVeiculos.atualizaBateria(idCarro,bateriaAposCarregamento);

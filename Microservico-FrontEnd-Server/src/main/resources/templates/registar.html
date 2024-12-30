@@ -17,7 +17,7 @@
 
 <div class="container mt-5">
     <h1 class="mb-4">Registar Novo Utilizador</h1>
-    <form action="/MICROSERVICO-FRONTEND-SERVER/registar" th:object="${utilizador}" method="POST">
+    <form action="/MICROSERVICO-FRONTEND-SERVER/registar" th:object="${utilizador}" method="POST" novalidate>
 
         <div th:if="${param.email_invalid}">
             <div class="alert alert-danger">
@@ -27,17 +27,17 @@
         <div class="mb-3">
             <label for="nome" class="form-label">Nome</label>
             <p class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</p>
-            <input name="name" type="text" class="form-control" id="nome" placeholder="Insira o seu nome" required>
+            <input name="name" type="text" class="form-control" id="nome" placeholder="Insira o seu nome" >
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <p class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</p>
-            <input name="email" type="text" class="form-control" id="email" placeholder="Insira o seu email" required>
+            <input name="email" type="text" class="form-control" id="email" placeholder="Insira o seu email" >
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <p class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</p>
-            <input name="password" type="text" class="form-control" id="password" placeholder="Insira a sua password" required>
+            <input name="password" type="text" class="form-control" id="password" placeholder="Insira a sua password" >
         </div>
         <button type="submit" class="btn btn-primary">Registrar</button>
     </form>

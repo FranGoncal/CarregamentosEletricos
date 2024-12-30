@@ -31,10 +31,17 @@ public class SessaoCarregamento {
     private double carregamento; //kW
     private LocalDateTime inicio;
     private LocalDateTime fim;
+    private Long cargaMaxima;
     private Duration duracao;
     private Boolean terminada;
 
 
+    public Long getCargaMaxima() {
+        return cargaMaxima;
+    }
+    public void setCargaMaxima(Long cargaMaxima) {
+        this.cargaMaxima = cargaMaxima;
+    }
     public Long getIdCeme() {
         return idCeme;
     }

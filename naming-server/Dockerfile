@@ -3,6 +3,7 @@
 FROM openjdk:21-jdk-slim
 
 WORKDIR /app
+
 # Etapa 2: Copiar o arquivo JAR para o contêiner
 COPY target/naming-server-0.0.1-SNAPSHOT.jar /app/naming-server.jar
 
@@ -10,5 +11,5 @@ COPY target/naming-server-0.0.1-SNAPSHOT.jar /app/naming-server.jar
 EXPOSE 8761
 
 # Etapa 4: Definir o comando para rodar o app
-#ENTRYPOINT ["java", "-jar", "/app.jar"]
+#ENTRYPOINT exec java $JAVA_OPTS -jar Microservico-FrontEnd-Server.jar
 ENTRYPOINT ["java", "-jar", "naming-server.jar"]
